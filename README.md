@@ -22,4 +22,5 @@ BUY ME A COFFEE
 ---------------
 
 Bitcoin: 1Bzc7PatbRzXz6EAmvSuBuoWED96qy3zgc
+
 Darkcoin: XsWp6DXrEiEtBpyU5YMctXf15BYNHhufrG
