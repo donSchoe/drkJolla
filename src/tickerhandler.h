@@ -15,19 +15,34 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.currencies.TickerHandler 0.3
-import "pages"
+#include <QObject>
 
-ApplicationWindow
+#include "bitfinex.h"
+#include "mintpal.h"
+#include "cryptsy.h"
+
+class TickerHandler : public QObject
 {
-    id: drkApp
-    initialPage: Qt.resolvedUrl("pages/first.qml")
-    cover: Qt.resolvedUrl("cover/cover.qml")
-    property TickerHandler drkTicker: TickerHandler {
-        id: drkTicker
-    }
-}
+    Q_OBJECT
 
+public:
+    explicit TickerHandler(QObject *parent = 0);
 
+public slots:
+    void update();
+
+    QString bitfinexBtcUsd();
+    QString bitfinexDrkUsd();
+    QString bitfinexDrkBtc();
+    QString mintpalDrkBtc();
+    QString cryptsyDrkBtc();
+    QString cryptsyCachBtc();
+
+    QString version(bool shrt = false);
+    QString versionDate();
+
+private:
+    BitFinex m_bitfinex;
+    MintPal m_mintpal;
+    Cryptsy m_cryptsy;
+};

@@ -15,19 +15,38 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.currencies.TickerHandler 0.3
-import "pages"
+#include <QObject>
+#include <QNetworkAccessManager>
 
-ApplicationWindow
+class BitFinex : public QObject
 {
-    id: drkApp
-    initialPage: Qt.resolvedUrl("pages/first.qml")
-    cover: Qt.resolvedUrl("cover/cover.qml")
-    property TickerHandler drkTicker: TickerHandler {
-        id: drkTicker
-    }
-}
+    Q_OBJECT
 
+public:
+    explicit BitFinex(QObject *parent = 0);
+    ~BitFinex();
 
+    double getBtcUsd();
+    double getDrkUsd();
+    double getDrkBtc();
+
+    void fetch();
+
+public slots:
+    void onBtcUsdResult(QNetworkReply* reply);
+    void onDrkUsdResult(QNetworkReply* reply);
+    void onDrkBtcResult(QNetworkReply* reply);
+
+protected:
+    double updatePair(QNetworkReply* reply);
+
+private:
+    double m_pairBtcUsd;
+    double m_pairDrkUsd;
+    double m_pairDrkBtc;
+
+    QNetworkAccessManager m_btcUsdManager;
+    QNetworkAccessManager m_drkUsdManager;
+    QNetworkAccessManager m_drkBtcManager;
+
+};

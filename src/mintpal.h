@@ -15,19 +15,29 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.currencies.TickerHandler 0.3
-import "pages"
+#include <QObject>
+#include <QNetworkAccessManager>
 
-ApplicationWindow
+class MintPal : public QObject
 {
-    id: drkApp
-    initialPage: Qt.resolvedUrl("pages/first.qml")
-    cover: Qt.resolvedUrl("cover/cover.qml")
-    property TickerHandler drkTicker: TickerHandler {
-        id: drkTicker
-    }
-}
+    Q_OBJECT
 
+public:
+    explicit MintPal(QObject *parent = 0);
+    ~MintPal();
 
+    double getDrkBtc();
+    void fetch();
+
+public slots:
+    void onDrkBtcResult(QNetworkReply* reply);
+
+protected:
+    double updatePair(QNetworkReply* reply);
+
+private:
+    double m_pairDrkBtc;
+
+    QNetworkAccessManager m_drkBtcManager;
+
+};

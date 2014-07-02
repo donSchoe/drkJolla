@@ -18,38 +18,39 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 
-class DRKCoin : public QObject
+class Cryptsy : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit DRKCoin(QObject *parent = 0);
+    explicit Cryptsy(QObject *parent = 0);
+    ~Cryptsy();
+
+    double getDrkUsd();
+    double getDrkBtc();
+    double getDrkLtc();
+    double getCachBtc();
+
+    void fetch();
 
 public slots:
-    void update();
-
-    QString bitfinexUSD();
-    QString mintpalBTC();
-    QString bitfinexBTC();
-
-    QString version(bool shrt = false);
-    QString versionDate();
+    void onDrkUsdResult(QNetworkReply* reply);
+    void onDrkBtcResult(QNetworkReply* reply);
+    void onDrkLtcResult(QNetworkReply* reply);
+    void onCachBtcResult(QNetworkReply* reply);
 
 protected:
-    void fetchTickers();
-
-protected slots:
-    void onBitfinexResult(QNetworkReply* reply);
-    void onMintpalResult(QNetworkReply* reply);
-    void onBitfinexBTCResult(QNetworkReply* reply);
+    double updatePair(QNetworkReply* reply, QString market);
 
 private:
-    double m_bitfinexUSD;
-    double m_mintpalBTC;
-    double m_bitfinexBTC;
+    double m_pairDrkUsd;
+    double m_pairDrkBtc;
+    double m_pairDrkLtc;
+    double m_pairCachBtc;
 
-    QNetworkAccessManager m_bitfinexManager;
-    QNetworkAccessManager m_mintpalManager;
-    QNetworkAccessManager m_bitfinexBTCManager;
+    QNetworkAccessManager m_drkUsdManager;
+    QNetworkAccessManager m_drkBtcManager;
+    QNetworkAccessManager m_drkLtcManager;
+    QNetworkAccessManager m_cachBtcManager;
 
 };

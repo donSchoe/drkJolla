@@ -32,12 +32,12 @@ Page {
             width: parent.width - 2 * Theme.paddingLarge
             spacing: Theme.paddingMedium
             PageHeader {
-                title: qsTr("About drkJolla 0." + drkApp.drkCoin.version(true))
+                title: qsTr("About drkJolla 0." + drkApp.drkTicker.version(true))
             }
             Label {
                 id: aboutLabel
                 x: Theme.paddingMedium
-                text: qsTr("Version 0." + drkApp.drkCoin.version(true))
+                text: qsTr("Version 0." + drkApp.drkTicker.version(true))
                 color: Theme.highlightColor
                 font.pixelSize: Theme.fontSizeMedium
                 horizontalAlignment: Text.AlignHLeft
@@ -48,7 +48,7 @@ Page {
             Label {
                 id: aboutVersion
                 x: Theme.paddingMedium
-                text: qsTr("<strong>drkJolla</strong> v0." + drkApp.drkCoin.version() + " released as of " + drkApp.drkCoin.versionDate() + ".<br /><br />")
+                text: qsTr("<strong>drkJolla</strong> v0." + drkApp.drkTicker.version() + " released as of " + drkApp.drkTicker.versionDate() + ".<br /><br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft

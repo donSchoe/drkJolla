@@ -23,11 +23,12 @@ Page {
     property int firstCycle: 0
     property int firstUpdate: 5
     function refresh() {
-        firstBitfinexPrice.text = drkApp.drkCoin.bitfinexUSD()
-        firstMintpalPrice.text = drkApp.drkCoin.mintpalBTC()
-        firstBitfinexPriceBTC.text = qsTr(drkApp.drkCoin.bitfinexBTC())
+        firstBitfinexDrkUsd.text = drkApp.drkTicker.bitfinexDrkUsd()
+        firstBitfinexDrkBtc.text = drkApp.drkTicker.bitfinexDrkBtc()
+        firstMintpalDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
+        firstBitfinexBtcUsd.text = qsTr(drkApp.drkTicker.bitfinexBtcUsd())
         if (firstCycle > (60 * firstUpdate)) {
-            drkApp.drkCoin.update()
+            drkApp.drkTicker.update()
             firstCycle = 0
         }
         else {
@@ -59,10 +60,10 @@ Page {
             width: parent.width - 2 * Theme.paddingLarge
             spacing: Theme.paddingMedium
             PageHeader {
-                title: qsTr("drkJolla 0." + drkApp.drkCoin.version(true))
+                title: qsTr("drkJolla 0." + drkApp.drkTicker.version(true))
             }
             Label {
-                id: firstHeading
+                id: firstHeadingDrk
                 text: qsTr("Darkcoin")
                 width: parent.width
                 color: Theme.secondaryHighlightColor
@@ -70,7 +71,7 @@ Page {
                 font.pixelSize: Theme.fontSizeExtraLarge
             }
             Label {
-                id: firstAbout
+                id: firstAboutDrk
                 x: Theme.paddingMedium
                 text: qsTr("Tickers are updated every 5 minutes if internet connection is available.<br />")
                 color: Theme.secondaryColor
@@ -81,15 +82,15 @@ Page {
                 width: parent.width * 0.9
             }
             Label {
-                id: firstBitfinex
+                id: firstBitfinexDrk
                 text: qsTr("Bitfinex")
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
             }
             Label {
-                id: firstBitfinexPrice
-                text: qsTr(drkApp.drkCoin.bitfinexUSD())
+                id: firstBitfinexDrkUsd
+                text: qsTr(drkApp.drkTicker.bitfinexDrkUsd())
                 width: parent.width
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
@@ -97,15 +98,24 @@ Page {
                 x: 3 * Theme.paddingLarge
             }
             Label {
-                id: firstMintpal
+                id: firstBitfinexDrkBtc
+                text: qsTr(drkApp.drkTicker.bitfinexDrkBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstMintpalDrk
                 text: qsTr("Mintpal")
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
             }
             Label {
-                id: firstMintpalPrice
-                text: qsTr(drkApp.drkCoin.mintpalBTC())
+                id: firstMintpalDrkBtc
+                text: qsTr(drkApp.drkTicker.mintpalDrkBtc())
                 width: parent.width
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
@@ -113,7 +123,7 @@ Page {
                 x: 3 * Theme.paddingLarge
             }
             Label {
-                id: firstHeadingBTC
+                id: firstHeadingBtc
                 text: qsTr("<br />Bitcoin")
                 width: parent.width
                 color: Theme.secondaryHighlightColor
@@ -121,7 +131,7 @@ Page {
                 font.pixelSize: Theme.fontSizeExtraLarge
             }
             Label {
-                id: firstAboutBTC
+                id: firstAboutBtc
                 x: Theme.paddingMedium
                 text: qsTr("Tickers are updated every 5 minutes if internet connection is available.<br />")
                 color: Theme.secondaryColor
@@ -132,20 +142,24 @@ Page {
                 width: parent.width * 0.9
             }
             Label {
-                id: firstBitfinexBTC
+                id: firstBitfinexBtc
                 text: qsTr("Bitfinex")
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
             }
             Label {
-                id: firstBitfinexPriceBTC
-                text: qsTr(drkApp.drkCoin.bitfinexBTC())
+                id: firstBitfinexBtcUsd
+                text: qsTr(drkApp.drkTicker.bitfinexBtcUsd())
                 width: parent.width
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+            }
+            VerticalScrollDecorator {
+                id: firstScroll
+                flickable: firstView
             }
         }
     }

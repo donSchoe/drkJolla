@@ -15,7 +15,10 @@ TARGET = drkjolla
 CONFIG += sailfishapp
 
 SOURCES += src/drkjolla.cpp \
-    src/drkcoin.cpp
+    src/tickerhandler.cpp \
+    src/bitfinex.cpp \
+    src/mintpal.cpp \
+    src/cryptsy.cpp
 
 OTHER_FILES += qml/drkjolla.qml \
     qml/cover/cover.qml \
@@ -33,4 +36,7 @@ CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/drkjolla-de.ts
 
 HEADERS += \
-    src/drkcoin.h
+    src/tickerhandler.h \
+    src/bitfinex.h \
+    src/mintpal.h \
+    src/cryptsy.h

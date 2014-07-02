@@ -18,11 +18,11 @@
 #include <QtQuick>
 
 #include "sailfishapp.h"
-#include "drkcoin.h"
+#include "tickerhandler.h"
 
 int main(int argc, char *argv[])
 {
-    qmlRegisterType<DRKCoin>("harbour.currencies.DRKCoin", 0, 2, "DRKCoin");
+    qmlRegisterType<TickerHandler>("harbour.currencies.TickerHandler", 0, 3, "TickerHandler");
 
     return SailfishApp::main(argc, argv);
 }

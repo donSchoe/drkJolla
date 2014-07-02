@@ -23,10 +23,10 @@ CoverBackground {
     property int coverCycle: 0
     property int coverUpdate: 5
     function refresh() {
-        coverBitfinexPrice.text = drkApp.drkCoin.bitfinexUSD()
-        coverMintpalPrice.text = drkApp.drkCoin.mintpalBTC()
+        coverBitfinexPrice.text = drkApp.drkTicker.bitfinexDrkUsd()
+        coverMintpalPrice.text = drkApp.drkTicker.mintpalDrkBtc()
         if (coverCycle > (60 * coverUpdate)) {
-            drkApp.drkCoin.update()
+            drkApp.drkTicker.update()
             coverCycle = 0
         }
         else {
@@ -64,7 +64,7 @@ CoverBackground {
         }
         Label {
             id: coverBitfinexPrice
-            text: qsTr(drkApp.drkCoin.bitfinexUSD())
+            text: qsTr(drkApp.drkTicker.bitfinexDrkUsd())
             width: parent.width
             color: Theme.highlightColor
             horizontalAlignment: Text.AlignHCenter
@@ -79,7 +79,7 @@ CoverBackground {
         }
         Label {
             id: coverMintpalPrice
-            text: qsTr(drkApp.drkCoin.mintpalBTC())
+            text: qsTr(drkApp.drkTicker.mintpalDrkBtc())
             width: parent.width
             color: Theme.highlightColor
             horizontalAlignment: Text.AlignHCenter
@@ -99,7 +99,7 @@ CoverBackground {
             id: coverAction
             iconSource: "image://theme/icon-cover-refresh"
             onTriggered: {
-                drkApp.drkCoin.update()
+                drkApp.drkTicker.update()
                 coverCycle = 0
                 coverPage.refresh()
             }
