@@ -18,7 +18,8 @@ SOURCES += src/drkjolla.cpp \
     src/tickerhandler.cpp \
     src/bitfinex.cpp \
     src/mintpal.cpp \
-    src/cryptsy.cpp
+    src/cryptsy.cpp \
+    src/poloniex.cpp
 
 OTHER_FILES += qml/drkjolla.qml \
     qml/cover/cover.qml \
@@ -39,4 +40,5 @@ HEADERS += \
     src/tickerhandler.h \
     src/bitfinex.h \
     src/mintpal.h \
-    src/cryptsy.h
+    src/cryptsy.h \
+    src/poloniex.h

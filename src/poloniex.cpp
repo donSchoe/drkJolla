@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2014 Alexander Schoedon <schoedon@uni-potsdam.de>
  *
@@ -15,6 +16,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -23,70 +25,75 @@
 #include <QJsonValue>
 #include <QUrl>
 
-#include "mintpal.h"
+#include "poloniex.h"
 
 namespace {
-    static const QString DRK_BTC = "https://api.mintpal.com/v2/market/stats/DRK/BTC";
+    static const QString TICKER = "https://poloniex.com/public?command=returnTicker";
 }
 
-MintPal::MintPal(QObject *parent)
+PoloniEx::PoloniEx(QObject *parent)
     :   QObject(parent)
     ,   m_pairDrkBtc(-1.0f)
-    ,   m_drkBtcManager(this)
+    ,   m_pairCachBtc(-1.0f)
+    ,   m_tickerManager(this)
 {
-    connect(&m_drkBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDrkBtcResult(QNetworkReply*)));
+    connect(&m_tickerManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onTickerResult(QNetworkReply*)));
     fetch();
 }
 
-MintPal::~MintPal() { }
+PoloniEx::~PoloniEx() { }
 
-double MintPal::getDrkBtc()
+double PoloniEx::getDrkBtc()
 {
     return m_pairDrkBtc;
 }
 
-void MintPal::fetch()
+double PoloniEx::getCachBtc()
+{
+    return m_pairCachBtc;
+}
+
+void PoloniEx::fetch()
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(DRK_BTC));
-    m_drkBtcManager.get(request);
+    request.setUrl(QUrl(TICKER));
+    m_tickerManager.get(request);
 }
 
-void MintPal::onDrkBtcResult(QNetworkReply* reply)
+void PoloniEx::onTickerResult(QNetworkReply* reply)
 {
-    m_pairDrkBtc = updatePair(reply);
-}
-
-double MintPal::updatePair(QNetworkReply* reply)
-{
-    double pair = -1.0f;
     if (reply->error() != QNetworkReply::NoError)
     {
-        pair = 0.0f;
+        m_pairDrkBtc = 0.0f;
+        m_pairCachBtc = 0.0f;
     }
     else
     {
         QString data = QString(reply->readAll());
         QJsonDocument jsonResponse = QJsonDocument::fromJson(data.toUtf8());
         QJsonObject jsonObject = jsonResponse.object();
-        if (jsonObject["status"].toString() == "success")
+
+        QJsonObject jsonDrkBtcObject = jsonObject["BTC_DRK"].toObject();
+        double tmpDrkBtc = QString(jsonDrkBtcObject["highestBid"].toString()).remove('"').toDouble();
+        QJsonObject jsonCachBtcObject = jsonObject["BTC_CACH"].toObject();
+        double tmpCachBtc = QString(jsonCachBtcObject["highestBid"].toString()).remove('"').toDouble();
+
+        if (tmpDrkBtc > 0.0f)
         {
-            jsonObject = jsonObject["data"].toObject();
-            double tmp = QString(jsonObject["top_bid"].toString()).remove('"').toDouble();
-            if (tmp > 0.0f)
-            {
-                pair = tmp;
-            }
-            else
-            {
-                pair = 0.0f;
-            }
+            m_pairDrkBtc = tmpDrkBtc;
         }
         else
         {
-            pair = 0.0f;
+            m_pairDrkBtc = 0.0f;
+        }
+
+        if (tmpCachBtc > 0.0f)
+        {
+            m_pairCachBtc = tmpCachBtc;
+        }
+        else
+        {
+            m_pairCachBtc = 0.0f;
         }
     }
-    return pair;
 }
-

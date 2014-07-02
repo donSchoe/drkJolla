@@ -15,19 +15,28 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.currencies.TickerHandler 0.4
-import "pages"
+#include <QObject>
+#include <QNetworkAccessManager>
 
-ApplicationWindow
+class PoloniEx : public QObject
 {
-    id: drkApp
-    initialPage: Qt.resolvedUrl("pages/first.qml")
-    cover: Qt.resolvedUrl("cover/cover.qml")
-    property TickerHandler drkTicker: TickerHandler {
-        id: drkTicker
-    }
-}
+    Q_OBJECT
 
+public:
+    explicit PoloniEx(QObject *parent = 0);
+    ~PoloniEx();
 
+    double getDrkBtc();
+    double getCachBtc();
+    void fetch();
+
+public slots:
+    void onTickerResult(QNetworkReply* reply);
+
+private:
+    double m_pairDrkBtc;
+    double m_pairCachBtc;
+
+    QNetworkAccessManager m_tickerManager;
+
+};

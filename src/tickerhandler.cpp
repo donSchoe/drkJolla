@@ -19,9 +19,9 @@
 
 namespace {
     static const int     VERSION_MAJOR   = 0;
-    static const int     VERSION_MINOR   = 3;
+    static const int     VERSION_MINOR   = 4;
     static const QString VERSION_STRING  = "1";
-    static const QString RELEASE_DATE    = "30/June/2014";
+    static const QString RELEASE_DATE    = "02/July/2014";
 }
 
 TickerHandler::TickerHandler(QObject *parent)
@@ -80,6 +80,18 @@ QString TickerHandler::mintpalDrkBtc()
     }
 }
 
+QString TickerHandler::cryptsyDrkUsd()
+{
+    if (m_cryptsy.getDrkUsd() > 0.0f)
+    {
+        return QString("USD ").append(QString::number(m_cryptsy.getDrkUsd(), 'f', 3));
+    }
+    else
+    {
+        return QString("USD ---");
+    }
+}
+
 QString TickerHandler::cryptsyDrkBtc()
 {
     if (m_cryptsy.getDrkBtc() > 0.0f)
@@ -92,11 +104,47 @@ QString TickerHandler::cryptsyDrkBtc()
     }
 }
 
+QString TickerHandler::cryptsyDrkLtc()
+{
+    if (m_cryptsy.getDrkLtc() > 0.0f)
+    {
+        return QString("LTC ").append(QString::number(m_cryptsy.getDrkLtc(), 'f', 3));
+    }
+    else
+    {
+        return QString("LTC ---");
+    }
+}
+
 QString TickerHandler::cryptsyCachBtc()
 {
     if (m_cryptsy.getCachBtc() > 0.0f)
     {
-        return QString("BTC ").append(QString::number(m_cryptsy.getCachBtc(), 'f', 5));
+        return QString("BTC ").append(QString::number(m_cryptsy.getCachBtc(), 'f', 7));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::poloniexDrkBtc()
+{
+    if (m_poloniex.getDrkBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_poloniex.getDrkBtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::poloniexCachBtc()
+{
+    if (m_poloniex.getCachBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_poloniex.getCachBtc(), 'f', 7));
     }
     else
     {
@@ -109,6 +157,7 @@ void TickerHandler::update()
     m_bitfinex.fetch();
     m_mintpal.fetch();
     m_cryptsy.fetch();
+    m_poloniex.fetch();
 }
 
 QString TickerHandler::version(bool shrt)

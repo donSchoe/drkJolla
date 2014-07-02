@@ -20,6 +20,7 @@
 #include "bitfinex.h"
 #include "mintpal.h"
 #include "cryptsy.h"
+#include "poloniex.h"
 
 class TickerHandler : public QObject
 {
@@ -35,8 +36,12 @@ public slots:
     QString bitfinexDrkUsd();
     QString bitfinexDrkBtc();
     QString mintpalDrkBtc();
+    QString cryptsyDrkUsd();
     QString cryptsyDrkBtc();
+    QString cryptsyDrkLtc();
     QString cryptsyCachBtc();
+    QString poloniexDrkBtc();
+    QString poloniexCachBtc();
 
     QString version(bool shrt = false);
     QString versionDate();
@@ -45,4 +50,5 @@ private:
     BitFinex m_bitfinex;
     MintPal m_mintpal;
     Cryptsy m_cryptsy;
+    PoloniEx m_poloniex;
 };

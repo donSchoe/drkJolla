@@ -22,7 +22,7 @@
 
 int main(int argc, char *argv[])
 {
-    qmlRegisterType<TickerHandler>("harbour.currencies.TickerHandler", 0, 3, "TickerHandler");
+    qmlRegisterType<TickerHandler>("harbour.currencies.TickerHandler", 0, 4, "TickerHandler");
 
     return SailfishApp::main(argc, argv);
 }

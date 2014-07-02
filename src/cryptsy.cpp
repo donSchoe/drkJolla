@@ -16,6 +16,7 @@
  */
 
 #include <QDebug>
+#include <QStringList>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -78,13 +79,13 @@ void Cryptsy::fetch()
 {
     QNetworkRequest request;
     request.setUrl(QUrl(DRK_USD));
-    QNetworkReply* replyDrkUsd = m_drkUsdManager.get(request);
+    m_drkUsdManager.get(request);
     request.setUrl(QUrl(DRK_BTC));
-    QNetworkReply* replyDrkBtc = m_drkBtcManager.get(request);
+    m_drkBtcManager.get(request);
     request.setUrl(QUrl(DRK_LTC));
-    QNetworkReply* replyDrkLtc = m_drkLtcManager.get(request);
+    m_drkLtcManager.get(request);
     request.setUrl(QUrl(CACH_BTC));
-    QNetworkReply* replyCachBtc = m_cachBtcManager.get(request);
+    m_cachBtcManager.get(request);
 }
 
 void Cryptsy::onDrkUsdResult(QNetworkReply* reply)
@@ -110,49 +111,31 @@ void Cryptsy::onCachBtcResult(QNetworkReply* reply)
 double Cryptsy::updatePair(QNetworkReply* reply, QString market)
 {
     double pair = -1.0f;
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        pair = 0.0f;
+    }
+    else
+    {
+        QString data = QString(reply->readAll());
 
-//    // @TODO this does totally not work
-//    if (reply->error() != QNetworkReply::NoError)
-//    {
-//        pair = 0.0f;
-//    }
-//    else
-//    {
-//        QString data = QString(reply->readAll());
-//        //qDebug() << "data" << data;
-//        QJsonDocument jsonResponse = QJsonDocument::fromJson(data.toUtf8());
-//        //qDebug() << "raw" << jsonResponse.toVariant();//.toJsonArray();
-//        QJsonObject jsonObject = jsonResponse.object();
-//        //qDebug() << "crypt" << jsonObject["success"].toString();
-//        //qDebug() << "success" << jsonObject["success"].toString();
-//        if (jsonObject["success"] != 1)
-//        {
-//            pair = 0.0f;
-//        }
-//        else
-//        {
-//            //qDebug() << "return" << jsonObject["return"].toString();
-//            jsonObject = jsonObject["return"].toObject();
-//            //qDebug() << market << jsonObject[market].toString();
-//            jsonObject = jsonObject[market].toObject();
-//            //qDebug() << "buyorders" << jsonObject["buyorders"].toString();
-//            jsonObject = jsonObject["buyorders"].toObject();
-//            //qDebug() << "0" << jsonObject[0].toString();
-//            jsonObject = jsonObject[0].toObject();
-//            double tmp = QString(jsonObject["price"].toString()).remove('"').toDouble();
-//            //qDebug() << "price" << QString::number(tmp);
-//            if (tmp > 0.0f)
-//            {
-//                pair = tmp;
-//            }
-//            else
-//            {
-//                pair = 0.0f;
-//            }
-//        }
-//    }
+        // @TODO cryptsy json seems to be invalid, this was my best try:
+        QStringList dataList = data.split("\["); // buyorders
+        dataList = dataList.last().split("\]"); // trim invalid json
+        dataList = dataList.first().split("\,"); // highest bid
+        dataList = dataList.first().split("\:"); // value only
 
-    qDebug() << "Cryptsy disabled!!!";
+        double tmp = dataList.last().remove('"').toDouble();
+
+        if (tmp > 0.0f)
+        {
+            pair = tmp;
+        }
+        else
+        {
+            pair = 0.0f;
+        }
+    }
     return pair;
 }
 

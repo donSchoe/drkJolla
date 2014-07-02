@@ -68,11 +68,11 @@ void BitFinex::fetch()
 {
     QNetworkRequest request;
     request.setUrl(QUrl(BTC_DRK));
-    QNetworkReply* replyBtcUsd = m_btcUsdManager.get(request);
+    m_btcUsdManager.get(request);
     request.setUrl(QUrl(DRK_USD));
-    QNetworkReply* replyDrkUsd = m_drkUsdManager.get(request);
+    m_drkUsdManager.get(request);
     request.setUrl(QUrl(DRK_BTC));
-    QNetworkReply* replyDrkBtc = m_drkBtcManager.get(request);
+    m_drkBtcManager.get(request);
 }
 
 
