@@ -19,7 +19,7 @@
 
 namespace {
     static const int     VERSION_MAJOR   = 0;
-    static const int     VERSION_MINOR   = 4;
+    static const int     VERSION_MINOR   = 5;
     static const QString VERSION_STRING  = "1";
     static const QString RELEASE_DATE    = "02/July/2014";
 }
@@ -108,7 +108,7 @@ QString TickerHandler::cryptsyDrkLtc()
 {
     if (m_cryptsy.getDrkLtc() > 0.0f)
     {
-        return QString("LTC ").append(QString::number(m_cryptsy.getDrkLtc(), 'f', 3));
+        return QString("LTC ").append(QString::number(m_cryptsy.getDrkLtc(), 'f', 5));
     }
     else
     {
