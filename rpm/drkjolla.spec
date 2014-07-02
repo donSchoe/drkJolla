@@ -13,7 +13,7 @@ Name:       drkjolla
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    drkJolla
-Version:    0.0.2
+Version:    0.1.0
 Release:    1
 Group:      Applications/Internet
 License:    GPLv3
@@ -28,7 +28,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-Darkcoin price ticker app for your device.
+Darkcoin and Cachecoin price ticker app for your device.
 
 
 %prep

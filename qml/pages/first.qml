@@ -79,7 +79,7 @@ Page {
             Label {
                 id: firstAboutBtc
                 x: Theme.paddingMedium
-                text: qsTr("Tickers are updated every 5 minutes if internet connection is available.<br />")
+                text: qsTr("Bitcoin is an innovative payment network and a new kind of money. Tickers are updated every 5 minutes if internet connection is available.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
@@ -114,7 +114,7 @@ Page {
             Label {
                 id: firstAboutDrk
                 x: Theme.paddingMedium
-                text: qsTr("Tickers are updated every 5 minutes if internet connection is available.<br />")
+                text: qsTr("Darkcoin is a digital crypto-currency build for a maximum of privacy. Tickers are updated every 5 minutes if internet connection is available.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
@@ -224,7 +224,7 @@ Page {
             Label {
                 id: firstAboutCach
                 x: Theme.paddingMedium
-                text: qsTr("Tickers are updated every 5 minutes if internet connection is available.<br />")
+                text: qsTr("Cachecoin is crypto-project that aims to improve the altcoin ecosystem. Tickers are updated every 5 minutes if internet connection is available.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft

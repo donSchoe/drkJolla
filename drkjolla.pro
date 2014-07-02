@@ -14,31 +14,26 @@ TARGET = drkjolla
 
 CONFIG += sailfishapp
 
-SOURCES += src/drkjolla.cpp \
-    src/tickerhandler.cpp \
-    src/bitfinex.cpp \
-    src/mintpal.cpp \
-    src/cryptsy.cpp \
-    src/poloniex.cpp
-
-OTHER_FILES += qml/drkjolla.qml \
-    qml/cover/cover.qml \
-    rpm/drkjolla.changes.in \
-    rpm/drkjolla.spec \
-    rpm/drkjolla.yaml \
-    translations/*.ts \
-    drkjolla.desktop \
-    qml/pages/about.qml \
-    qml/pages/first.qml
-
-# to disable building translations every time, comment out the
-# following CONFIG line
-CONFIG += sailfishapp_i18n
-TRANSLATIONS += translations/drkjolla-de.ts
-
 HEADERS += \
     src/tickerhandler.h \
     src/bitfinex.h \
-    src/mintpal.h \
     src/cryptsy.h \
+    src/mintpal.h \
     src/poloniex.h
+
+SOURCES += src/drkjolla.cpp \
+    src/tickerhandler.cpp \
+    src/bitfinex.cpp \
+    src/cryptsy.cpp \
+    src/mintpal.cpp \
+    src/poloniex.cpp
+
+OTHER_FILES += qml/drkjolla.qml \
+    qml/pages/first.qml \
+    qml/pages/about.qml \
+    qml/cover/cover.qml \
+    rpm/drkjolla.changes \
+    rpm/drkjolla.spec \
+    rpm/drkjolla.yaml \
+    drkjolla.desktop \
+    drkjolla.png

@@ -18,10 +18,10 @@
 #include "tickerhandler.h"
 
 namespace {
-    static const int     VERSION_MAJOR   = 0;
-    static const int     VERSION_MINOR   = 5;
+    static const int     VERSION_MAJOR   = 1;
+    static const int     VERSION_MINOR   = 0;
     static const QString VERSION_STRING  = "1";
-    static const QString RELEASE_DATE    = "02/July/2014";
+    static const QString RELEASE_DATE    = "03/July/2014";
 }
 
 TickerHandler::TickerHandler(QObject *parent)
