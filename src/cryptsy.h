@@ -26,31 +26,51 @@ public:
     explicit Cryptsy(QObject *parent = 0);
     ~Cryptsy();
 
+    double getBtcUsd();
     double getDrkUsd();
     double getDrkBtc();
     double getDrkLtc();
+    double getCloakBtc();
+    double getCloakLtc();
+    double getXcBtc();
+    double getXcLtc();
     double getCachBtc();
 
     void fetch();
 
 public slots:
+    void onBtcUsdResult(QNetworkReply* reply);
     void onDrkUsdResult(QNetworkReply* reply);
     void onDrkBtcResult(QNetworkReply* reply);
     void onDrkLtcResult(QNetworkReply* reply);
+    void onCloakBtcResult(QNetworkReply* reply);
+    void onCloakLtcResult(QNetworkReply* reply);
+    void onXcBtcResult(QNetworkReply* reply);
+    void onXcLtcResult(QNetworkReply* reply);
     void onCachBtcResult(QNetworkReply* reply);
 
 protected:
-    double updatePair(QNetworkReply* reply, QString market);
+    double updatePair(QNetworkReply* reply);
 
 private:
+    double m_pairBtcUsd;
     double m_pairDrkUsd;
     double m_pairDrkBtc;
     double m_pairDrkLtc;
+    double m_pairCloakBtc;
+    double m_pairCloakLtc;
+    double m_pairXcBtc;
+    double m_pairXcLtc;
     double m_pairCachBtc;
 
+    QNetworkAccessManager m_btcUsdManager;
     QNetworkAccessManager m_drkUsdManager;
     QNetworkAccessManager m_drkBtcManager;
     QNetworkAccessManager m_drkLtcManager;
+    QNetworkAccessManager m_cloakBtcManager;
+    QNetworkAccessManager m_cloakLtcManager;
+    QNetworkAccessManager m_xcBtcManager;
+    QNetworkAccessManager m_xcLtcManager;
     QNetworkAccessManager m_cachBtcManager;
 
 };

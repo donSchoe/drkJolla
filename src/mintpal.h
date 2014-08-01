@@ -27,17 +27,33 @@ public:
     ~MintPal();
 
     double getDrkBtc();
+    double getDrkLtc();
+    double getCloakBtc();
+    double getXmrBtc();
+    double getXcBtc();
     void fetch();
 
 public slots:
     void onDrkBtcResult(QNetworkReply* reply);
+    void onDrkLtcResult(QNetworkReply* reply);
+    void onCloakBtcResult(QNetworkReply* reply);
+    void onXmrBtcResult(QNetworkReply* reply);
+    void onXcBtcResult(QNetworkReply* reply);
 
 protected:
     double updatePair(QNetworkReply* reply);
 
 private:
     double m_pairDrkBtc;
+    double m_pairDrkLtc;
+    double m_pairCloakBtc;
+    double m_pairXmrBtc;
+    double m_pairXcBtc;
 
     QNetworkAccessManager m_drkBtcManager;
+    QNetworkAccessManager m_drkLtcManager;
+    QNetworkAccessManager m_cloakBtcManager;
+    QNetworkAccessManager m_xmrBtcManager;
+    QNetworkAccessManager m_xcBtcManager;
 
 };

@@ -27,14 +27,30 @@
 
 namespace {
     static const QString DRK_BTC = "https://api.mintpal.com/v2/market/stats/DRK/BTC";
+    static const QString DRK_LTC = "https://api.mintpal.com/v2/market/stats/DRK/LTC";
+    static const QString CLOAK_BTC = "https://api.mintpal.com/v2/market/stats/CLOAK/BTC";
+    static const QString XMR_BTC = "https://api.mintpal.com/v2/market/stats/XMR/BTC";
+    static const QString XC_BTC = "https://api.mintpal.com/v2/market/stats/XC/BTC";
 }
 
 MintPal::MintPal(QObject *parent)
     :   QObject(parent)
     ,   m_pairDrkBtc(-1.0f)
+    ,   m_pairDrkLtc(-1.0f)
+    ,   m_pairCloakBtc(-1.0f)
+    ,   m_pairXmrBtc(-1.0f)
+    ,   m_pairXcBtc(-1.0f)
     ,   m_drkBtcManager(this)
+    ,   m_drkLtcManager(this)
+    ,   m_cloakBtcManager(this)
+    ,   m_xmrBtcManager(this)
+    ,   m_xcBtcManager(this)
 {
     connect(&m_drkBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDrkBtcResult(QNetworkReply*)));
+    connect(&m_drkLtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDrkLtcResult(QNetworkReply*)));
+    connect(&m_cloakBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onCloakBtcResult(QNetworkReply*)));
+    connect(&m_xmrBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onXmrBtcResult(QNetworkReply*)));
+    connect(&m_xcBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onXcBtcResult(QNetworkReply*)));
     fetch();
 }
 
@@ -45,16 +61,64 @@ double MintPal::getDrkBtc()
     return m_pairDrkBtc;
 }
 
+double MintPal::getDrkLtc()
+{
+    return m_pairDrkLtc;
+}
+
+double MintPal::getCloakBtc()
+{
+    return m_pairCloakBtc;
+}
+
+double MintPal::getXmrBtc()
+{
+    return m_pairXmrBtc;
+}
+
+double MintPal::getXcBtc()
+{
+    return m_pairXcBtc;
+}
+
 void MintPal::fetch()
 {
     QNetworkRequest request;
     request.setUrl(QUrl(DRK_BTC));
     m_drkBtcManager.get(request);
+    request.setUrl(QUrl(DRK_LTC));
+    m_drkLtcManager.get(request);
+    request.setUrl(QUrl(CLOAK_BTC));
+    m_cloakBtcManager.get(request);
+    request.setUrl(QUrl(XMR_BTC));
+    m_xmrBtcManager.get(request);
+    request.setUrl(QUrl(XC_BTC));
+    m_xcBtcManager.get(request);
 }
 
 void MintPal::onDrkBtcResult(QNetworkReply* reply)
 {
     m_pairDrkBtc = updatePair(reply);
+}
+
+void MintPal::onDrkLtcResult(QNetworkReply* reply)
+{
+    m_pairDrkLtc = updatePair(reply);
+}
+
+void MintPal::onCloakBtcResult(QNetworkReply* reply)
+{
+    m_pairCloakBtc = updatePair(reply);
+}
+
+void MintPal::onXmrBtcResult(QNetworkReply* reply)
+{
+    m_pairXmrBtc = updatePair(reply);
+}
+
+void MintPal::onXcBtcResult(QNetworkReply* reply)
+{
+    m_pairXcBtc = updatePair(reply);
 }
 
 double MintPal::updatePair(QNetworkReply* reply)

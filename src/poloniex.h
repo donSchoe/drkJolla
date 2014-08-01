@@ -27,7 +27,11 @@ public:
     ~PoloniEx();
 
     double getDrkBtc();
+    double getDrkXmr();
+    double getXcBtc();
+    double getXmrBtc();
     double getCachBtc();
+
     void fetch();
 
 public slots:
@@ -35,6 +39,9 @@ public slots:
 
 private:
     double m_pairDrkBtc;
+    double m_pairDrkXmr;
+    double m_pairXcBtc;
+    double m_pairXmrBtc;
     double m_pairCachBtc;
 
     QNetworkAccessManager m_tickerManager;

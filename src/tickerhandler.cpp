@@ -19,9 +19,9 @@
 
 namespace {
     static const int     VERSION_MAJOR   = 1;
-    static const int     VERSION_MINOR   = 0;
+    static const int     VERSION_MINOR   = 1;
     static const QString VERSION_STRING  = "1";
-    static const QString RELEASE_DATE    = "03/July/2014";
+    static const QString RELEASE_DATE    = "01/August/2014";
 }
 
 TickerHandler::TickerHandler(QObject *parent)
@@ -80,6 +80,66 @@ QString TickerHandler::mintpalDrkBtc()
     }
 }
 
+QString TickerHandler::mintpalDrkLtc()
+{
+    if (m_mintpal.getDrkLtc() > 0.0f)
+    {
+        return QString("LTC ").append(QString::number(m_mintpal.getDrkLtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("LTC ---");
+    }
+}
+
+QString TickerHandler::mintpalCloakBtc()
+{
+    if (m_mintpal.getCloakBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_mintpal.getCloakBtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::mintpalXmrBtc()
+{
+    if (m_mintpal.getXmrBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_mintpal.getXmrBtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::mintpalXcBtc()
+{
+    if (m_mintpal.getXcBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_mintpal.getXcBtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::cryptsyBtcUsd()
+{
+    if (m_cryptsy.getBtcUsd() > 0.0f)
+    {
+        return QString("USD ").append(QString::number(m_cryptsy.getBtcUsd(), 'f', 2));
+    }
+    else
+    {
+        return QString("USD ---");
+    }
+}
+
 QString TickerHandler::cryptsyDrkUsd()
 {
     if (m_cryptsy.getDrkUsd() > 0.0f)
@@ -116,6 +176,54 @@ QString TickerHandler::cryptsyDrkLtc()
     }
 }
 
+QString TickerHandler::cryptsyCloakBtc()
+{
+    if (m_cryptsy.getCloakBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_cryptsy.getCloakBtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::cryptsyCloakLtc()
+{
+    if (m_cryptsy.getCloakLtc() > 0.0f)
+    {
+        return QString("LTC ").append(QString::number(m_cryptsy.getCloakLtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("LTC ---");
+    }
+}
+
+QString TickerHandler::cryptsyXcBtc()
+{
+    if (m_cryptsy.getXcBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_cryptsy.getXcBtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::cryptsyXcLtc()
+{
+    if (m_cryptsy.getXcLtc() > 0.0f)
+    {
+        return QString("LTC ").append(QString::number(m_cryptsy.getXcLtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("LTC ---");
+    }
+}
+
 QString TickerHandler::cryptsyCachBtc()
 {
     if (m_cryptsy.getCachBtc() > 0.0f)
@@ -133,6 +241,42 @@ QString TickerHandler::poloniexDrkBtc()
     if (m_poloniex.getDrkBtc() > 0.0f)
     {
         return QString("BTC ").append(QString::number(m_poloniex.getDrkBtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::poloniexDrkXmr()
+{
+    if (m_poloniex.getDrkXmr() > 0.0f)
+    {
+        return QString("XMR ").append(QString::number(m_poloniex.getDrkXmr(), 'f', 3));
+    }
+    else
+    {
+        return QString("XMR ---");
+    }
+}
+
+QString TickerHandler::poloniexXcBtc()
+{
+    if (m_poloniex.getXcBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_poloniex.getXcBtc(), 'f', 5));
+    }
+    else
+    {
+        return QString("BTC ---");
+    }
+}
+
+QString TickerHandler::poloniexXmrBtc()
+{
+    if (m_poloniex.getXmrBtc() > 0.0f)
+    {
+        return QString("BTC ").append(QString::number(m_poloniex.getXmrBtc(), 'f', 5));
     }
     else
     {

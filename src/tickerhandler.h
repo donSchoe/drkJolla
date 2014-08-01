@@ -36,11 +36,23 @@ public slots:
     QString bitfinexDrkUsd();
     QString bitfinexDrkBtc();
     QString mintpalDrkBtc();
+    QString mintpalDrkLtc();
+    QString mintpalCloakBtc();
+    QString mintpalXmrBtc();
+    QString mintpalXcBtc();
+    QString cryptsyBtcUsd();
     QString cryptsyDrkUsd();
     QString cryptsyDrkBtc();
     QString cryptsyDrkLtc();
+    QString cryptsyCloakBtc();
+    QString cryptsyCloakLtc();
+    QString cryptsyXcBtc();
+    QString cryptsyXcLtc();
     QString cryptsyCachBtc();
     QString poloniexDrkBtc();
+    QString poloniexDrkXmr();
+    QString poloniexXcBtc();
+    QString poloniexXmrBtc();
     QString poloniexCachBtc();
 
     QString version(bool shrt = false);

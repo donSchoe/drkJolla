@@ -24,13 +24,25 @@ Page {
     property int firstUpdate: 5
     function refresh() {
         firstBitfinexBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
+        firstCryptsyBtcUsd.text = drkApp.drkTicker.cryptsyBtcUsd()
         firstBitfinexDrkUsd.text = drkApp.drkTicker.bitfinexDrkUsd()
         firstBitfinexDrkBtc.text = drkApp.drkTicker.bitfinexDrkBtc()
         firstCryptsyDrkUsd.text = drkApp.drkTicker.cryptsyDrkUsd()
         firstCryptsyDrkBtc.text = drkApp.drkTicker.cryptsyDrkBtc()
         firstCryptsyDrkLtc.text = drkApp.drkTicker.cryptsyDrkLtc()
         firstMintpalDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
+        firstMintpalDrkLtc.text = drkApp.drkTicker.mintpalDrkLtc()
         firstPoloniexDrkBtc.text = drkApp.drkTicker.poloniexDrkBtc()
+        firstPoloniexDrkXmr.text = drkApp.drkTicker.poloniexDrkXmr()
+        firstCryptsyCloakBtc.text = drkApp.drkTicker.cryptsyCloakBtc()
+        firstCryptsyCloakLtc.text = drkApp.drkTicker.cryptsyCloakLtc()
+        firstMintpalCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
+        firstMintpalXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
+        firstPoloniexXmrBtc.text = drkApp.drkTicker.poloniexXmrBtc()
+        firstCryptsyXcBtc.text = drkApp.drkTicker.cryptsyXcBtc()
+        firstCryptsyXcLtc.text = drkApp.drkTicker.cryptsyXcLtc()
+        firstMintpalXcBtc.text = drkApp.drkTicker.mintpalXcBtc()
+        firstPoloniexXcBtc.text = drkApp.drkTicker.poloniexXcBtc()
         firstCryptsyCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
         firstPoloniexCachBtc.text = drkApp.drkTicker.poloniexCachBtc()
         if (firstCycle > (60 * firstUpdate)) {
@@ -79,7 +91,7 @@ Page {
             Label {
                 id: firstAboutBtc
                 x: Theme.paddingMedium
-                text: qsTr("Bitcoin is an innovative payment network and a new kind of money. Tickers are updated every 5 minutes if internet connection is available.<br />")
+                text: qsTr("Bitcoin is an innovative payment network and a new kind of money.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
@@ -104,6 +116,22 @@ Page {
                 x: 3 * Theme.paddingLarge
             }
             Label {
+                id: firstCryptsyBtc
+                text: qsTr("Cryptsy")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+            }
+            Label {
+                id: firstCryptsyBtcUsd
+                text: qsTr(drkApp.drkTicker.cryptsyBtcUsd())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
                 id: firstHeadingDrk
                 text: qsTr("<br />Darkcoin")
                 width: parent.width
@@ -114,7 +142,7 @@ Page {
             Label {
                 id: firstAboutDrk
                 x: Theme.paddingMedium
-                text: qsTr("Darkcoin is a digital crypto-currency build for a maximum of privacy. Tickers are updated every 5 minutes if internet connection is available.<br />")
+                text: qsTr("Darkcoin is a digital crypto-currency build for a maximum of privacy.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
@@ -198,6 +226,15 @@ Page {
                 x: 3 * Theme.paddingLarge
             }
             Label {
+                id: firstMintpalDrkLtc
+                text: qsTr(drkApp.drkTicker.mintpalDrkLtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
                 id: firstPoloniexDrk
                 text: qsTr("Poloniex")
                 width: parent.width
@@ -207,6 +244,202 @@ Page {
             Label {
                 id: firstPoloniexDrkBtc
                 text: qsTr(drkApp.drkTicker.poloniexDrkBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstPoloniexDrkXmr
+                text: qsTr(drkApp.drkTicker.poloniexDrkXmr())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstHeadingCloak
+                text: qsTr("<br />Cloakcoin")
+                width: parent.width
+                color: Theme.secondaryHighlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeExtraLarge
+            }
+            Label {
+                id: firstAboutCloak
+                x: Theme.paddingMedium
+                text: qsTr("Cloakcoin is a digital crypto-currency.<br />")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                horizontalAlignment: Text.AlignHLeft
+                wrapMode: Text.WordWrap
+                elide: Text.ElideMiddle
+                width: parent.width * 0.9
+            }
+            Label {
+                id: firstCryptsyCloak
+                text: qsTr("Cryptsy")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+            }
+            Label {
+                id: firstCryptsyCloakBtc
+                text: qsTr(drkApp.drkTicker.cryptsyCloakBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstCryptsyCloakLtc
+                text: qsTr(drkApp.drkTicker.cryptsyCloakLtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstMintpalCloak
+                text: qsTr("Mintpal")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+            }
+            Label {
+                id: firstMintpalCloakBtc
+                text: qsTr(drkApp.drkTicker.mintpalCloakBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstHeadingXmr
+                text: qsTr("<br />Monero")
+                width: parent.width
+                color: Theme.secondaryHighlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeExtraLarge
+            }
+            Label {
+                id: firstAboutXmr
+                x: Theme.paddingMedium
+                text: qsTr("Monero is a digital crypto-currency.<br />")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                horizontalAlignment: Text.AlignHLeft
+                wrapMode: Text.WordWrap
+                elide: Text.ElideMiddle
+                width: parent.width * 0.9
+            }
+            Label {
+                id: firstMintpalMonero
+                text: qsTr("Mintpal")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+            }
+            Label {
+                id: firstMintpalXmrBtc
+                text: qsTr(drkApp.drkTicker.mintpalXmrBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstPoloniexXmr
+                text: qsTr("Poloniex")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+            }
+            Label {
+                id: firstPoloniexXmrBtc
+                text: qsTr(drkApp.drkTicker.poloniexXmrBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstHeadingXc
+                text: qsTr("<br />XCurrency")
+                width: parent.width
+                color: Theme.secondaryHighlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeExtraLarge
+            }
+            Label {
+                id: firstAboutXc
+                x: Theme.paddingMedium
+                text: qsTr("XCurrency is a digital crypto-currency.<br />")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                horizontalAlignment: Text.AlignHLeft
+                wrapMode: Text.WordWrap
+                elide: Text.ElideMiddle
+                width: parent.width * 0.9
+            }
+            Label {
+                id: firstCryptsyXc
+                text: qsTr("Cryptsy")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+            }
+            Label {
+                id: firstCryptsyXcBtc
+                text: qsTr(drkApp.drkTicker.cryptsyXcBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstCryptsyXcLtc
+                text: qsTr(drkApp.drkTicker.cryptsyXcLtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstMintpalXc
+                text: qsTr("Mintpal")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+            }
+            Label {
+                id: firstMintpalXcBtc
+                text: qsTr(drkApp.drkTicker.mintpalCloakBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+            }
+            Label {
+                id: firstPoloniexXc
+                text: qsTr("Poloniex")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+            }
+            Label {
+                id: firstPoloniexXcBtc
+                text: qsTr(drkApp.drkTicker.poloniexXcBtc())
                 width: parent.width
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
@@ -224,7 +457,7 @@ Page {
             Label {
                 id: firstAboutCach
                 x: Theme.paddingMedium
-                text: qsTr("Cachecoin is crypto-project that aims to improve the altcoin ecosystem. Tickers are updated every 5 minutes if internet connection is available.<br />")
+                text: qsTr("Cachecoin is crypto-project that aims to improve the altcoin ecosystem.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
@@ -266,10 +499,14 @@ Page {
             }
             Label {
                 id: firstFooter
-                text: qsTr("<br />")
-                width: parent.width
-                horizontalAlignment: Text.AlignLeft
-                font.pixelSize: Theme.fontSizeSmall
+                x: Theme.paddingMedium
+                text: qsTr("<br />Tickers are updated every 5 minutes if internet connection is available.<br />")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                horizontalAlignment: Text.AlignHLeft
+                wrapMode: Text.WordWrap
+                elide: Text.ElideMiddle
+                width: parent.width * 0.9
             }
             VerticalScrollDecorator {
                 id: firstScroll
