@@ -1,11 +1,11 @@
-Name: drkjolla
-Summary: drkJolla
-Version: 0.1.0
+Name: harbour-drkjolla
+Summary: drkJolla Crypto Price Ticker
+Version: 0.1.1
 Release: 1
 # The contents of the Group field must be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
 Group: Applications/Internet
-URL: https://github.com/donSchoe/drkJolla
+URL: https://github.com/donSchoe/drkjolla
 License: GPLv3
 # This must be generated before uploading a package to a remote build service.
 # Usually this line does not need to be modified.

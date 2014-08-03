@@ -1,3 +1,9 @@
+* Sun Aug 03 2014 Alexander Schoedon <schoedon@uni-potsdam.de> 0.1.2-1
+- Fixed issues for harbour QA
+
+* Sat Aug 02 2014 Alexander Schoedon <schoedon@uni-potsdam.de> 0.1.1-1
+- Added CLOAK, XMR and XC tickers
+
 * Thu Jul 03 2014 Alexander Schoedon <schoedon@uni-potsdam.de> 0.1.0-1
 - Prepared release for harbour
 

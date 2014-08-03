@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
 X-Nemo-Application-Type=silica-qt5
-Icon=drkjolla
-Exec=drkjolla
-Name=drkjolla
+Icon=harbour-drkjolla
+Exec=harbour-drkjolla
+Name=harbour-drkjolla

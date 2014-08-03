@@ -10,7 +10,7 @@
 #   - translation filenames have to be changed
 
 # The name of your application
-TARGET = drkjolla
+TARGET = harbour-drkjolla
 
 CONFIG += sailfishapp
 
