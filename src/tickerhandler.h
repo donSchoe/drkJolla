@@ -30,7 +30,26 @@ public:
     explicit TickerHandler(QObject *parent = 0);
 
 public slots:
+    void setDefaults();
     void update();
+
+    void setUpdateInterval(int interval = 5);
+    void setOfflineMode(bool enabled = false);
+    void setBtcEnabled(bool enabled = true);
+    void setDrkEnabled(bool enabled = true);
+    void setCloakEnabled(bool enabled = true);
+    void setXmrEnabled(bool enabled = true);
+    void setXcEnabled(bool enabled = true);
+    void setCachEnabled(bool enabled = true);
+
+    int updateInterval();
+    bool isOfflineMode();
+    bool isBtcEnabled();
+    bool isDrkEnabled();
+    bool isCloakEnabled();
+    bool isXmrEnabled();
+    bool isXcEnabled();
+    bool isCachEnabled();
 
     QString bitfinexBtcUsd();
     QString bitfinexDrkUsd();
@@ -59,6 +78,15 @@ public slots:
     QString versionDate();
 
 private:
+    int m_updateInterval;
+    bool m_offlineMode;
+    bool m_btcEnabled;
+    bool m_drkEnabled;
+    bool m_cloakEnabled;
+    bool m_xmrEnabled;
+    bool m_xcEnabled;
+    bool m_cachEnabled;
+
     BitFinex m_bitfinex;
     MintPal m_mintpal;
     Cryptsy m_cryptsy;

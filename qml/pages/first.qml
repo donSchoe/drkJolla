@@ -21,8 +21,24 @@ import Sailfish.Silica 1.0
 Page {
     id: firstPage
     property int firstCycle: 0
-    property int firstUpdate: 5
+    property int updateInterval: drkApp.drkTicker.updateInterval()
+    property bool active: status !== PageStatus.Inactive
+    property bool offlineMode: drkApp.drkTicker.isOfflineMode()
+    property bool btcEnabled: drkApp.drkTicker.isBtcEnabled()
+    property bool drkEnabled: drkApp.drkTicker.isDrkEnabled()
+    property bool cloakEnabled: drkApp.drkTicker.isCloakEnabled()
+    property bool xmrEnabled: drkApp.drkTicker.isXmrEnabled()
+    property bool xcEnabled: drkApp.drkTicker.isXcEnabled()
+    property bool cachEnabled: drkApp.drkTicker.isCachEnabled()
     function refresh() {
+        updateInterval = drkApp.drkTicker.updateInterval()
+        offlineMode = drkApp.drkTicker.isOfflineMode()
+        btcEnabled = drkApp.drkTicker.isBtcEnabled()
+        drkEnabled = drkApp.drkTicker.isDrkEnabled()
+        cloakEnabled = drkApp.drkTicker.isCloakEnabled()
+        xmrEnabled = drkApp.drkTicker.isXmrEnabled()
+        xcEnabled = drkApp.drkTicker.isXcEnabled()
+        cachEnabled = drkApp.drkTicker.isCachEnabled()
         firstBitfinexBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
         firstCryptsyBtcUsd.text = drkApp.drkTicker.cryptsyBtcUsd()
         firstBitfinexDrkUsd.text = drkApp.drkTicker.bitfinexDrkUsd()
@@ -45,8 +61,10 @@ Page {
         firstPoloniexXcBtc.text = drkApp.drkTicker.poloniexXcBtc()
         firstCryptsyCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
         firstPoloniexCachBtc.text = drkApp.drkTicker.poloniexCachBtc()
-        if (firstCycle > (60 * firstUpdate)) {
-            drkApp.drkTicker.update()
+        if (firstCycle > (60 * updateInterval)) {
+            if (!offlineMode && active) {
+                drkApp.drkTicker.update()
+            }
             firstCycle = 0
         }
         else {
@@ -56,7 +74,7 @@ Page {
     Timer {
         id: firstTimer
         interval: 1000
-        running: true
+        running: active
         repeat: true
         onTriggered: firstPage.refresh()
     }
@@ -69,6 +87,21 @@ Page {
                 text: qsTr("About")
                 onClicked: pageStack.push(Qt.resolvedUrl("about.qml"))
             }
+            MenuItem {
+                text: qsTr("Settings")
+                onClicked: pageStack.push(Qt.resolvedUrl("settings.qml"))
+            }
+            MenuItem {
+                text: offlineMode ? qsTr("Go Online") : qsTr("Refresh")
+                onClicked: {
+                    if (offlineMode) {
+                        drkApp.drkTicker.setOfflineMode(false)
+                    }
+                    else {
+                        firstPage.refresh()
+                    }
+                }
+            }
         }
         Column {
             id: firstColumn
@@ -78,7 +111,7 @@ Page {
             width: parent.width - 2 * Theme.paddingLarge
             spacing: Theme.paddingMedium
             PageHeader {
-                title: qsTr("drkJolla 0." + drkApp.drkTicker.version(true))
+                title: qsTr("drkJolla")
             }
             Label {
                 id: firstHeadingBtc
@@ -87,6 +120,7 @@ Page {
                 color: Theme.secondaryHighlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeExtraLarge
+                visible: btcEnabled
             }
             Label {
                 id: firstAboutBtc
@@ -98,6 +132,7 @@ Page {
                 wrapMode: Text.WordWrap
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
+                visible: btcEnabled
             }
             Label {
                 id: firstBitfinexBtc
@@ -105,6 +140,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: btcEnabled
             }
             Label {
                 id: firstBitfinexBtcUsd
@@ -114,6 +150,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: btcEnabled
             }
             Label {
                 id: firstCryptsyBtc
@@ -121,6 +158,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: btcEnabled
             }
             Label {
                 id: firstCryptsyBtcUsd
@@ -130,6 +168,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: btcEnabled
             }
             Label {
                 id: firstHeadingDrk
@@ -138,6 +177,7 @@ Page {
                 color: Theme.secondaryHighlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeExtraLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstAboutDrk
@@ -149,6 +189,7 @@ Page {
                 wrapMode: Text.WordWrap
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
+                visible: drkEnabled
             }
             Label {
                 id: firstBitfinexDrk
@@ -156,6 +197,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: drkEnabled
             }
             Label {
                 id: firstBitfinexDrkUsd
@@ -165,6 +207,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstBitfinexDrkBtc
@@ -174,6 +217,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstCryptsyDrk
@@ -181,6 +225,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: drkEnabled
             }
             Label {
                 id: firstCryptsyDrkUsd
@@ -190,6 +235,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstCryptsyDrkBtc
@@ -199,6 +245,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstCryptsyDrkLtc
@@ -208,6 +255,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstMintpalDrk
@@ -215,6 +263,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: drkEnabled
             }
             Label {
                 id: firstMintpalDrkBtc
@@ -224,6 +273,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstMintpalDrkLtc
@@ -233,6 +283,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstPoloniexDrk
@@ -240,6 +291,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: drkEnabled
             }
             Label {
                 id: firstPoloniexDrkBtc
@@ -249,6 +301,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstPoloniexDrkXmr
@@ -258,6 +311,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: drkEnabled
             }
             Label {
                 id: firstHeadingCloak
@@ -266,6 +320,7 @@ Page {
                 color: Theme.secondaryHighlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeExtraLarge
+                visible: cloakEnabled
             }
             Label {
                 id: firstAboutCloak
@@ -277,6 +332,7 @@ Page {
                 wrapMode: Text.WordWrap
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
+                visible: cloakEnabled
             }
             Label {
                 id: firstCryptsyCloak
@@ -284,6 +340,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: cloakEnabled
             }
             Label {
                 id: firstCryptsyCloakBtc
@@ -293,6 +350,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: cloakEnabled
             }
             Label {
                 id: firstCryptsyCloakLtc
@@ -302,6 +360,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: cloakEnabled
             }
             Label {
                 id: firstMintpalCloak
@@ -309,6 +368,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: cloakEnabled
             }
             Label {
                 id: firstMintpalCloakBtc
@@ -318,6 +378,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: cloakEnabled
             }
             Label {
                 id: firstHeadingXmr
@@ -326,6 +387,7 @@ Page {
                 color: Theme.secondaryHighlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeExtraLarge
+                visible: xmrEnabled
             }
             Label {
                 id: firstAboutXmr
@@ -337,6 +399,7 @@ Page {
                 wrapMode: Text.WordWrap
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
+                visible: xmrEnabled
             }
             Label {
                 id: firstMintpalMonero
@@ -344,6 +407,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: xmrEnabled
             }
             Label {
                 id: firstMintpalXmrBtc
@@ -353,6 +417,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: xmrEnabled
             }
             Label {
                 id: firstPoloniexXmr
@@ -360,6 +425,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: xmrEnabled
             }
             Label {
                 id: firstPoloniexXmrBtc
@@ -369,6 +435,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: xmrEnabled
             }
             Label {
                 id: firstHeadingXc
@@ -377,6 +444,7 @@ Page {
                 color: Theme.secondaryHighlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeExtraLarge
+                visible: xcEnabled
             }
             Label {
                 id: firstAboutXc
@@ -388,6 +456,7 @@ Page {
                 wrapMode: Text.WordWrap
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
+                visible: xcEnabled
             }
             Label {
                 id: firstCryptsyXc
@@ -395,6 +464,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: xcEnabled
             }
             Label {
                 id: firstCryptsyXcBtc
@@ -404,6 +474,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: xcEnabled
             }
             Label {
                 id: firstCryptsyXcLtc
@@ -413,6 +484,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: xcEnabled
             }
             Label {
                 id: firstMintpalXc
@@ -420,6 +492,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: xcEnabled
             }
             Label {
                 id: firstMintpalXcBtc
@@ -429,6 +502,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: xcEnabled
             }
             Label {
                 id: firstPoloniexXc
@@ -436,6 +510,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: xcEnabled
             }
             Label {
                 id: firstPoloniexXcBtc
@@ -445,6 +520,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: xcEnabled
             }
             Label {
                 id: firstHeadingCach
@@ -453,6 +529,7 @@ Page {
                 color: Theme.secondaryHighlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeExtraLarge
+                visible: cachEnabled
             }
             Label {
                 id: firstAboutCach
@@ -464,6 +541,7 @@ Page {
                 wrapMode: Text.WordWrap
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
+                visible: cachEnabled
             }
             Label {
                 id: firstCryptsyCach
@@ -471,6 +549,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: cachEnabled
             }
             Label {
                 id: firstCryptsyCachBtc
@@ -480,6 +559,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: cachEnabled
             }
             Label {
                 id: firstPoloniexCach
@@ -487,6 +567,7 @@ Page {
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
+                visible: cachEnabled
             }
             Label {
                 id: firstPoloniexCachBtc
@@ -496,17 +577,52 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
+                visible: cachEnabled
             }
             Label {
-                id: firstFooter
+                id: firstWarning
+                text: qsTr("<br />Heads up!")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryHighlightColor
+                visible: (!btcEnabled && !drkEnabled && !cloakEnabled && !xmrEnabled && !xcEnabled && !cachEnabled) || offlineMode
+            }
+            Label {
+                id: firstWarningTickers
                 x: Theme.paddingMedium
-                text: qsTr("<br />Tickers are updated every 5 minutes if internet connection is available.<br />")
+                text: qsTr("<br />You have no tickers enabled. Please review your settings and select at least one coin.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
                 wrapMode: Text.WordWrap
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
+                visible: (!btcEnabled && !drkEnabled && !cloakEnabled && !xmrEnabled && !xcEnabled && !cachEnabled)
+            }
+            Label {
+                id: firstWarningOffline
+                x: Theme.paddingMedium
+                text: qsTr("<br />You have the offline mode enabled. Tickers will not be refreshed unless the offline mode is disabled in settings.<br />")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                horizontalAlignment: Text.AlignHLeft
+                wrapMode: Text.WordWrap
+                elide: Text.ElideMiddle
+                width: parent.width * 0.9
+                visible: offlineMode
+            }
+            Label {
+                id: firstFooter
+                x: Theme.paddingMedium
+                text: qsTr("<br />Tickers are updated every " + updateInterval + " minutes if internet connection is available. You can adjust the update interval in settings.<br />")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                horizontalAlignment: Text.AlignHLeft
+                wrapMode: Text.WordWrap
+                elide: Text.ElideMiddle
+                width: parent.width * 0.9
+                visible: (btcEnabled || drkEnabled || cloakEnabled || xmrEnabled || xcEnabled || cachEnabled) && !offlineMode
             }
             VerticalScrollDecorator {
                 id: firstScroll

@@ -17,7 +17,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import harbour.drkJolla.tickerHandler 1.2
+import harbour.drkjolla.tickerHandler 1.3
 import "pages"
 
 ApplicationWindow

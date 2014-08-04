@@ -21,20 +21,34 @@ import Sailfish.Silica 1.0
 CoverBackground {
     id: coverPage
     property int coverCycle: 0
-    property int coverUpdate: 5
+    property int updateInterval: drkApp.drkTicker.updateInterval()
+    property bool coverActive: status !== Cover.Inactive
     property bool coverDrkEnabled: true
+    property bool offlineMode: drkApp.drkTicker.isOfflineMode()
+    property bool btcEnabled: drkApp.drkTicker.isBtcEnabled()
+    property bool drkEnabled: drkApp.drkTicker.isDrkEnabled()
+    property bool cloakEnabled: drkApp.drkTicker.isCloakEnabled()
+    property bool xmrEnabled: drkApp.drkTicker.isXmrEnabled()
+    property bool xcEnabled: drkApp.drkTicker.isXcEnabled()
+    property bool cachEnabled: drkApp.drkTicker.isCachEnabled()
     function refresh() {
-        if (coverDrkEnabled) {
-            coverBitfinexDrkUsd.text = drkApp.drkTicker.bitfinexDrkUsd()
-            coverCryptsyDrkBtc.text = drkApp.drkTicker.cryptsyDrkBtc()
-            coverMintpalDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
-        }
-        else {
-            coverCryptsyCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
-            coverPoloniexCachBtc.text = drkApp.drkTicker.poloniexCachBtc()
-        }
-        if (coverCycle > (60 * coverUpdate)) {
-            drkApp.drkTicker.update()
+        updateInterval = drkApp.drkTicker.updateInterval()
+        offlineMode = drkApp.drkTicker.isOfflineMode()
+        btcEnabled = drkApp.drkTicker.isBtcEnabled()
+        drkEnabled = drkApp.drkTicker.isDrkEnabled()
+        cloakEnabled = drkApp.drkTicker.isCloakEnabled()
+        xmrEnabled = drkApp.drkTicker.isXmrEnabled()
+        xcEnabled = drkApp.drkTicker.isXcEnabled()
+        cachEnabled = drkApp.drkTicker.isCachEnabled()
+        coverDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
+        coverCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
+        coverXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
+        coverXcBtc.text = drkApp.drkTicker.mintpalXcBtc()
+        coverCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
+        if (coverCycle > (60 * updateInterval)) {
+            if (!offlineMode && coverActive) {
+                drkApp.drkTicker.update()
+            }
             coverCycle = 0
         }
         else {
@@ -44,146 +58,116 @@ CoverBackground {
     Timer {
         id: coverTimer
         interval: 1000
-        running: true
+        running: coverActive
         repeat: true
         onTriggered: coverPage.refresh()
     }
     Column {
-        id: coverColumnDrk
-        visible: coverDrkEnabled
+        id: coverColumn
         anchors.centerIn: parent
         x: Theme.paddingLarge
         y: Theme.paddingLarge
         width: parent.width - 2 * Theme.paddingLarge
         spacing: Theme.paddingSmall
         Label {
-            id: coverHeadingDrk
+            id: coverDrk
             text: qsTr("Darkcoin")
-            width: parent.width
-            color: Theme.secondaryHighlightColor
-            horizontalAlignment: Text.AlignRight
-            font.pixelSize: Theme.fontSizeLarge
-        }
-        Label {
-            id: coverBitfinexDrk
-            text: qsTr("Bitfinex")
+            visible: drkEnabled
             width: parent.width
             horizontalAlignment: Text.AlignLeft
             font.pixelSize: Theme.fontSizeTiny
         }
         Label {
-            id: coverBitfinexDrkUsd
-            text: qsTr(drkApp.drkTicker.bitfinexDrkUsd())
-            width: parent.width
-            color: Theme.highlightColor
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeSmall
-        }
-        Label {
-            id: coverCryptsyDrk
-            text: qsTr("Cryptsy")
-            width: parent.width
-            horizontalAlignment: Text.AlignLeft
-            font.pixelSize: Theme.fontSizeTiny
-        }
-        Label {
-            id: coverCryptsyDrkBtc
-            text: qsTr(drkApp.drkTicker.cryptsyDrkBtc())
-            width: parent.width
-            color: Theme.highlightColor
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeSmall
-        }
-        Label {
-            id: coverMintpalDrk
-            text: qsTr("Mintpal")
-            width: parent.width
-            horizontalAlignment: Text.AlignLeft
-            font.pixelSize: Theme.fontSizeTiny
-        }
-        Label {
-            id: coverMintpalDrkBtc
+            id: coverDrkBtc
             text: qsTr(drkApp.drkTicker.mintpalDrkBtc())
+            visible: drkEnabled
             width: parent.width
             color: Theme.highlightColor
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeSmall
+            font.pixelSize: Theme.fontSizeTiny
         }
         Label {
-            id: coverFooterDrk
-            text: qsTr("<br /><br />")
+            id: coverCloak
+            text: qsTr("Cloakcoin")
+            visible: cloakEnabled
             width: parent.width
             horizontalAlignment: Text.AlignLeft
             font.pixelSize: Theme.fontSizeTiny
         }
-    }
-    Column {
-        id: coverColumnCach
-        visible: !coverDrkEnabled
-        anchors.centerIn: parent
-        x: Theme.paddingLarge
-        y: Theme.paddingLarge
-        width: parent.width - 2 * Theme.paddingLarge
-        spacing: Theme.paddingSmall
         Label {
-            id: coverHeadingCach
+            id: coverCloakBtc
+            text: qsTr(drkApp.drkTicker.mintpalCloakBtc())
+            visible: cloakEnabled
+            width: parent.width
+            color: Theme.highlightColor
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Theme.fontSizeTiny
+        }
+        Label {
+            id: coverXmr
+            text: qsTr("Monero")
+            visible: xmrEnabled
+            width: parent.width
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: Theme.fontSizeTiny
+        }
+        Label {
+            id: coverXmrBtc
+            text: qsTr(drkApp.drkTicker.mintpalXmrBtc())
+            visible: xmrEnabled
+            width: parent.width
+            color: Theme.highlightColor
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Theme.fontSizeTiny
+        }
+        Label {
+            id: coverXc
+            text: qsTr("XCurrency")
+            visible: xcEnabled
+            width: parent.width
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: Theme.fontSizeTiny
+        }
+        Label {
+            id: coverXcBtc
+            text: qsTr(drkApp.drkTicker.mintpalXcBtc())
+            visible: xcEnabled
+            width: parent.width
+            color: Theme.highlightColor
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Theme.fontSizeTiny
+        }
+        Label {
+            id: coverCach
             text: qsTr("Cachecoin")
-            width: parent.width
-            color: Theme.secondaryHighlightColor
-            horizontalAlignment: Text.AlignRight
-            font.pixelSize: Theme.fontSizeLarge
-        }
-        Label {
-            id: coverCryptsyCach
-            text: qsTr("Cryptsy")
+            visible: cachEnabled
             width: parent.width
             horizontalAlignment: Text.AlignLeft
             font.pixelSize: Theme.fontSizeTiny
         }
         Label {
-            id: coverCryptsyCachBtc
+            id: coverCachBtc
             text: qsTr(drkApp.drkTicker.cryptsyCachBtc())
+            visible: cachEnabled
             width: parent.width
             color: Theme.highlightColor
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeSmall
-        }
-        Label {
-            id: coverPoloniexCach
-            text: qsTr("Poloniex")
-            width: parent.width
-            horizontalAlignment: Text.AlignLeft
             font.pixelSize: Theme.fontSizeTiny
         }
-        Label {
-            id: coverPoloniexCachBtc
-            text: qsTr(drkApp.drkTicker.poloniexCachBtc())
-            width: parent.width
-            color: Theme.highlightColor
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeSmall
-        }
-        Label {
-            id: coverFooter
-            text: qsTr("<br /><br />")
-            width: parent.width
-            horizontalAlignment: Text.AlignLeft
-            font.pixelSize: Theme.fontSizeSmall
-        }
     }
-    CoverActionList {
-        id: coverActionList
-        CoverAction {
-            id: coverAction
-            iconSource: coverDrkEnabled ? "image://theme/icon-cover-next" : "image://theme/icon-cover-previous"
-            onTriggered: {
-                coverDrkEnabled = !coverDrkEnabled
-                drkApp.drkTicker.update()
-                coverCycle = 0
-                coverPage.refresh()
-            }
-        }
-    }
+//    CoverActionList {
+//        id: coverActionList
+//        CoverAction {
+//            id: coverAction
+//            iconSource: coverDrkEnabled ? "image://theme/icon-cover-next" : "image://theme/icon-cover-previous"
+//            onTriggered: {
+//                coverDrkEnabled = !coverDrkEnabled
+//                drkApp.drkTicker.update()
+//                coverCycle = 0
+//                coverPage.refresh()
+//            }
+//        }
+//    }
 }
 
 

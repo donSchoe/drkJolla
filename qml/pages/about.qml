@@ -32,7 +32,7 @@ Page {
             width: parent.width - 2 * Theme.paddingLarge
             spacing: Theme.paddingMedium
             PageHeader {
-                title: qsTr("About drkJolla 0." + drkApp.drkTicker.version(true))
+                title: qsTr("About drkJolla")
             }
             Label {
                 id: aboutLabel
@@ -104,6 +104,10 @@ Page {
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
                 onLinkActivated: Qt.openUrlExternally(link)
+            }
+            VerticalScrollDecorator {
+                id: aboutScroll
+                flickable: aboutView
             }
         }
     }

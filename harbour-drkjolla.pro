@@ -28,7 +28,7 @@ SOURCES += src/drkjolla.cpp \
     src/mintpal.cpp \
     src/poloniex.cpp
 
-OTHER_FILES += qml/drkjolla.qml \
+OTHER_FILES += \
     qml/pages/first.qml \
     qml/pages/about.qml \
     qml/cover/cover.qml \
@@ -36,4 +36,6 @@ OTHER_FILES += qml/drkjolla.qml \
     rpm/drkjolla.spec \
     rpm/drkjolla.yaml \
     drkjolla.desktop \
-    drkjolla.png
+    drkjolla.png \
+    qml/harbour-drkjolla.qml \
+    qml/pages/settings.qml
