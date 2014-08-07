@@ -32,28 +32,30 @@ CoverBackground {
     property bool xcEnabled: drkApp.drkTicker.isXcEnabled()
     property bool cachEnabled: drkApp.drkTicker.isCachEnabled()
     function refresh() {
-        updateInterval = drkApp.drkTicker.updateInterval()
-        offlineMode = drkApp.drkTicker.isOfflineMode()
-        btcEnabled = drkApp.drkTicker.isBtcEnabled()
-        drkEnabled = drkApp.drkTicker.isDrkEnabled()
-        cloakEnabled = drkApp.drkTicker.isCloakEnabled()
-        xmrEnabled = drkApp.drkTicker.isXmrEnabled()
-        xcEnabled = drkApp.drkTicker.isXcEnabled()
-        cachEnabled = drkApp.drkTicker.isCachEnabled()
-        coverBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
-        coverDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
-        coverCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
-        coverXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
-        coverXcBtc.text = drkApp.drkTicker.mintpalXcBtc()
-        coverCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
-        if (coverCycle > (60 * updateInterval)) {
-            if (!offlineMode && coverActive) {
-                drkApp.drkTicker.update()
+        if (coverActive) {
+            updateInterval = drkApp.drkTicker.updateInterval()
+            offlineMode = drkApp.drkTicker.isOfflineMode()
+            btcEnabled = drkApp.drkTicker.isBtcEnabled()
+            drkEnabled = drkApp.drkTicker.isDrkEnabled()
+            cloakEnabled = drkApp.drkTicker.isCloakEnabled()
+            xmrEnabled = drkApp.drkTicker.isXmrEnabled()
+            xcEnabled = drkApp.drkTicker.isXcEnabled()
+            cachEnabled = drkApp.drkTicker.isCachEnabled()
+            coverBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
+            coverDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
+            coverCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
+            coverXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
+            coverXcBtc.text = drkApp.drkTicker.mintpalXcBtc()
+            coverCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
+            if (coverCycle > (60 * updateInterval)) {
+                if (!offlineMode && coverActive) {
+                    drkApp.drkTicker.update()
+                }
+                coverCycle = 0
             }
-            coverCycle = 0
-        }
-        else {
-            coverCycle = coverCycle + 1
+            else {
+                coverCycle = coverCycle + 1
+            }
         }
     }
     Timer {

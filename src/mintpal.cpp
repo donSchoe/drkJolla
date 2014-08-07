@@ -54,7 +54,9 @@ MintPal::MintPal(QObject *parent)
     fetch();
 }
 
-MintPal::~MintPal() { }
+MintPal::~MintPal()
+{
+}
 
 double MintPal::getDrkBtc()
 {

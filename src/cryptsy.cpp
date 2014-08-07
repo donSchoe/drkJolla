@@ -72,7 +72,9 @@ Cryptsy::Cryptsy(QObject *parent)
     fetch();
 }
 
-Cryptsy::~Cryptsy() { }
+Cryptsy::~Cryptsy()
+{
+}
 
 double Cryptsy::getBtcUsd()
 {

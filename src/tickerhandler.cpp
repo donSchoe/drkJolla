@@ -20,7 +20,7 @@
 
 namespace {
     static const int     VERSION_MAJOR   = 1;
-    static const int     VERSION_MINOR   = 4;
+    static const int     VERSION_MINOR   = 5;
     static const QString VERSION_STRING  = "1";
     static const QString RELEASE_DATE    = "07/August/2014";
 }
@@ -37,6 +37,10 @@ TickerHandler::TickerHandler(QObject *parent)
 
     if (!isOfflineMode())
         update();
+}
+
+TickerHandler::~TickerHandler()
+{
 }
 
 void TickerHandler::setDefaults()

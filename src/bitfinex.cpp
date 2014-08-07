@@ -46,7 +46,9 @@ BitFinex::BitFinex(QObject *parent)
     fetch();
 }
 
-BitFinex::~BitFinex() { }
+BitFinex::~BitFinex()
+{
+}
 
 
 double BitFinex::getBtcUsd()

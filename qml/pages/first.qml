@@ -31,50 +31,52 @@ Page {
     property bool xcEnabled: drkApp.drkTicker.isXcEnabled()
     property bool cachEnabled: drkApp.drkTicker.isCachEnabled()
     function refresh() {
-        updateInterval = drkApp.drkTicker.updateInterval()
-        offlineMode = drkApp.drkTicker.isOfflineMode()
-        btcEnabled = drkApp.drkTicker.isBtcEnabled()
-        drkEnabled = drkApp.drkTicker.isDrkEnabled()
-        cloakEnabled = drkApp.drkTicker.isCloakEnabled()
-        xmrEnabled = drkApp.drkTicker.isXmrEnabled()
-        xcEnabled = drkApp.drkTicker.isXcEnabled()
-        cachEnabled = drkApp.drkTicker.isCachEnabled()
-        firstBitfinexBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
-        firstCryptsyBtcUsd.text = drkApp.drkTicker.cryptsyBtcUsd()
-        firstBitfinexDrkUsd.text = drkApp.drkTicker.bitfinexDrkUsd()
-        firstBitfinexDrkBtc.text = drkApp.drkTicker.bitfinexDrkBtc()
-        firstCryptsyDrkUsd.text = drkApp.drkTicker.cryptsyDrkUsd()
-        firstCryptsyDrkBtc.text = drkApp.drkTicker.cryptsyDrkBtc()
-        firstCryptsyDrkLtc.text = drkApp.drkTicker.cryptsyDrkLtc()
-        firstMintpalDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
-        firstMintpalDrkLtc.text = drkApp.drkTicker.mintpalDrkLtc()
-        firstPoloniexDrkBtc.text = drkApp.drkTicker.poloniexDrkBtc()
-        firstPoloniexDrkXmr.text = drkApp.drkTicker.poloniexDrkXmr()
-        firstCryptsyCloakBtc.text = drkApp.drkTicker.cryptsyCloakBtc()
-        firstCryptsyCloakLtc.text = drkApp.drkTicker.cryptsyCloakLtc()
-        firstMintpalCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
-        firstMintpalXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
-        firstPoloniexXmrBtc.text = drkApp.drkTicker.poloniexXmrBtc()
-        firstCryptsyXcBtc.text = drkApp.drkTicker.cryptsyXcBtc()
-        firstCryptsyXcLtc.text = drkApp.drkTicker.cryptsyXcLtc()
-        firstMintpalXcBtc.text = drkApp.drkTicker.mintpalXcBtc()
-        firstPoloniexXcBtc.text = drkApp.drkTicker.poloniexXcBtc()
-        firstCryptsyCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
-        firstPoloniexCachBtc.text = drkApp.drkTicker.poloniexCachBtc()
-        if (firstCycle > (60 * updateInterval)) {
-            if (!offlineMode && active) {
-                drkApp.drkTicker.update()
+        if (active && Qt.application.active) {
+            updateInterval = drkApp.drkTicker.updateInterval()
+            offlineMode = drkApp.drkTicker.isOfflineMode()
+            btcEnabled = drkApp.drkTicker.isBtcEnabled()
+            drkEnabled = drkApp.drkTicker.isDrkEnabled()
+            cloakEnabled = drkApp.drkTicker.isCloakEnabled()
+            xmrEnabled = drkApp.drkTicker.isXmrEnabled()
+            xcEnabled = drkApp.drkTicker.isXcEnabled()
+            cachEnabled = drkApp.drkTicker.isCachEnabled()
+            firstBitfinexBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
+            firstCryptsyBtcUsd.text = drkApp.drkTicker.cryptsyBtcUsd()
+            firstBitfinexDrkUsd.text = drkApp.drkTicker.bitfinexDrkUsd()
+            firstBitfinexDrkBtc.text = drkApp.drkTicker.bitfinexDrkBtc()
+            firstCryptsyDrkUsd.text = drkApp.drkTicker.cryptsyDrkUsd()
+            firstCryptsyDrkBtc.text = drkApp.drkTicker.cryptsyDrkBtc()
+            firstCryptsyDrkLtc.text = drkApp.drkTicker.cryptsyDrkLtc()
+            firstMintpalDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
+            firstMintpalDrkLtc.text = drkApp.drkTicker.mintpalDrkLtc()
+            firstPoloniexDrkBtc.text = drkApp.drkTicker.poloniexDrkBtc()
+            firstPoloniexDrkXmr.text = drkApp.drkTicker.poloniexDrkXmr()
+            firstCryptsyCloakBtc.text = drkApp.drkTicker.cryptsyCloakBtc()
+            firstCryptsyCloakLtc.text = drkApp.drkTicker.cryptsyCloakLtc()
+            firstMintpalCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
+            firstMintpalXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
+            firstPoloniexXmrBtc.text = drkApp.drkTicker.poloniexXmrBtc()
+            firstCryptsyXcBtc.text = drkApp.drkTicker.cryptsyXcBtc()
+            firstCryptsyXcLtc.text = drkApp.drkTicker.cryptsyXcLtc()
+            firstMintpalXcBtc.text = drkApp.drkTicker.mintpalXcBtc()
+            firstPoloniexXcBtc.text = drkApp.drkTicker.poloniexXcBtc()
+            firstCryptsyCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
+            firstPoloniexCachBtc.text = drkApp.drkTicker.poloniexCachBtc()
+            if (firstCycle > (60 * updateInterval)) {
+                if (!offlineMode && active) {
+                    drkApp.drkTicker.update()
+                }
+                firstCycle = 0
             }
-            firstCycle = 0
-        }
-        else {
-            firstCycle = firstCycle + 1
+            else {
+                firstCycle = firstCycle + 1
+            }
         }
     }
     Timer {
         id: firstTimer
         interval: 1000
-        running: active
+        running: active && Qt.application.active
         repeat: true
         onTriggered: firstPage.refresh()
     }

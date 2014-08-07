@@ -3,4 +3,4 @@ Type=Application
 X-Nemo-Application-Type=silica-qt5
 Icon=harbour-drkjolla
 Exec=harbour-drkjolla
-Name=harbour-drkjolla
+Name=drkJolla

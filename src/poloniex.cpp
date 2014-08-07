@@ -16,7 +16,6 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -44,7 +43,9 @@ PoloniEx::PoloniEx(QObject *parent)
     fetch();
 }
 
-PoloniEx::~PoloniEx() { }
+PoloniEx::~PoloniEx()
+{
+}
 
 double PoloniEx::getDrkBtc()
 {

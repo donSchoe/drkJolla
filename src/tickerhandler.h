@@ -29,6 +29,7 @@ class TickerHandler : public QObject
 
 public:
     explicit TickerHandler(QObject *parent = 0);
+    ~TickerHandler();
 
 public slots:
     void setDefaults();
