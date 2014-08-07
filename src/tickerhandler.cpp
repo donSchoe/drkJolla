@@ -15,14 +15,14 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QDebug>
+#include <QStandardPaths>
 #include "tickerhandler.h"
 
 namespace {
     static const int     VERSION_MAJOR   = 1;
-    static const int     VERSION_MINOR   = 3;
+    static const int     VERSION_MINOR   = 4;
     static const QString VERSION_STRING  = "1";
-    static const QString RELEASE_DATE    = "04/August/2014";
+    static const QString RELEASE_DATE    = "07/August/2014";
 }
 
 TickerHandler::TickerHandler(QObject *parent)
@@ -31,36 +31,103 @@ TickerHandler::TickerHandler(QObject *parent)
   ,   m_mintpal(this)
   ,   m_cryptsy(this)
   ,   m_poloniex(this)
+  ,   m_settings(QString(QStandardPaths::ConfigLocation), QSettings::NativeFormat, this)
 {
-
-//    // @TODO check for config file
-//    bool config = false;
-//
-//    if (config)
-//    {
-//      // @TODO read the config file
-//    }
-//    else
-//    {
     setDefaults();
-//    }
 
     if (!isOfflineMode())
-    {
         update();
-    }
 }
 
 void TickerHandler::setDefaults()
 {
-    setUpdateInterval();
-    setOfflineMode();
-    setBtcEnabled();
-    setDrkEnabled();
-    setCloakEnabled();
-    setXmrEnabled();
-    setXcEnabled();
-    setCachEnabled();
+    if (m_settings.allKeys().contains("update/interval", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("update");
+        setUpdateInterval(m_settings.value("interval", 5).toInt());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setUpdateInterval();
+    }
+
+    if (m_settings.allKeys().contains("update/offline", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("update");
+        setOfflineMode(m_settings.value("offline", false).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setOfflineMode();
+    }
+
+    if (m_settings.allKeys().contains("coins/btc", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("coins");
+        setBtcEnabled(m_settings.value("btc", true).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setBtcEnabled();
+    }
+
+    if (m_settings.allKeys().contains("coins/drk", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("coins");
+        setDrkEnabled(m_settings.value("drk", true).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setDrkEnabled();
+    }
+
+    if (m_settings.allKeys().contains("coins/cloak", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("coins");
+        setCloakEnabled(m_settings.value("cloak", true).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setCloakEnabled();
+    }
+
+    if (m_settings.allKeys().contains("coins/xmr", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("coins");
+        setXmrEnabled(m_settings.value("xmr", true).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setXmrEnabled();
+    }
+
+    if (m_settings.allKeys().contains("coins/xc", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("coins");
+        setXcEnabled(m_settings.value("xc", true).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setXcEnabled();
+    }
+
+    if (m_settings.allKeys().contains("coins/cach", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("coins");
+        setCachEnabled(m_settings.value("cach", true).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setCachEnabled();
+    }
 }
 
 void TickerHandler::update()
@@ -84,41 +151,97 @@ void TickerHandler::setUpdateInterval(int interval)
     {
         interval = 99;
     }
+    m_settings.beginGroup("update");
+    m_settings.setValue("interval", interval);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("update");
+    m_settings.endGroup();
     m_updateInterval = interval;
 }
 
 void TickerHandler::setOfflineMode(bool enabled)
 {
+    m_settings.beginGroup("update");
+    m_settings.setValue("offline", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("update");
+    m_settings.endGroup();
     m_offlineMode = enabled;
 }
 
 void TickerHandler::setBtcEnabled(bool enabled)
 {
+    m_settings.beginGroup("coins");
+    m_settings.setValue("btc", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("coins");
+    m_settings.endGroup();
     m_btcEnabled = enabled;
 }
 
 void TickerHandler::setDrkEnabled(bool enabled)
 {
+    m_settings.beginGroup("coins");
+    m_settings.setValue("drk", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("coins");
+    m_settings.endGroup();
     m_drkEnabled = enabled;
 }
 
 void TickerHandler::setCloakEnabled(bool enabled)
 {
+    m_settings.beginGroup("coins");
+    m_settings.setValue("cloak", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("coins");
+    m_settings.endGroup();
     m_cloakEnabled = enabled;
 }
 
 void TickerHandler::setXmrEnabled(bool enabled)
 {
+    m_settings.beginGroup("coins");
+    m_settings.setValue("xmr", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("coins");
+    m_settings.endGroup();
     m_xmrEnabled = enabled;
 }
 
 void TickerHandler::setXcEnabled(bool enabled)
 {
+    m_settings.beginGroup("coins");
+    m_settings.setValue("xc", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("coins");
+    m_settings.endGroup();
     m_xcEnabled = enabled;
 }
 
 void TickerHandler::setCachEnabled(bool enabled)
 {
+    m_settings.beginGroup("coins");
+    m_settings.setValue("cach", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("coins");
+    m_settings.endGroup();
     m_cachEnabled = enabled;
 }
 

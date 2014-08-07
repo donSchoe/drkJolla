@@ -16,6 +16,7 @@
  */
 
 #include <QObject>
+#include <QSettings>
 
 #include "bitfinex.h"
 #include "mintpal.h"
@@ -91,4 +92,6 @@ private:
     MintPal m_mintpal;
     Cryptsy m_cryptsy;
     PoloniEx m_poloniex;
+
+    QSettings m_settings;
 };

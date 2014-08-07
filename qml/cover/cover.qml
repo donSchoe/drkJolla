@@ -22,7 +22,7 @@ CoverBackground {
     id: coverPage
     property int coverCycle: 0
     property int updateInterval: drkApp.drkTicker.updateInterval()
-    property bool coverActive: status !== Cover.Inactive
+    property bool coverActive: status === Cover.Active
     property bool coverDrkEnabled: true
     property bool offlineMode: drkApp.drkTicker.isOfflineMode()
     property bool btcEnabled: drkApp.drkTicker.isBtcEnabled()
@@ -40,6 +40,7 @@ CoverBackground {
         xmrEnabled = drkApp.drkTicker.isXmrEnabled()
         xcEnabled = drkApp.drkTicker.isXcEnabled()
         cachEnabled = drkApp.drkTicker.isCachEnabled()
+        coverBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
         coverDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
         coverCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
         coverXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
@@ -69,6 +70,23 @@ CoverBackground {
         y: Theme.paddingLarge
         width: parent.width - 2 * Theme.paddingLarge
         spacing: Theme.paddingSmall
+        Label {
+            id: coverBtc
+            text: qsTr("Bitcoin")
+            visible: btcEnabled
+            width: parent.width
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: Theme.fontSizeTiny
+        }
+        Label {
+            id: coverBtcUsd
+            text: qsTr(drkApp.drkTicker.bitfinexBtcUsd())
+            visible: btcEnabled
+            width: parent.width
+            color: Theme.highlightColor
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Theme.fontSizeTiny
+        }
         Label {
             id: coverDrk
             text: qsTr("Darkcoin")
@@ -154,20 +172,45 @@ CoverBackground {
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: Theme.fontSizeTiny
         }
+        Label {
+            id: coverWarningOffline
+            x: Theme.paddingMedium
+            text: qsTr("<br />You have no tickers enabled. Please review your settings and select at least one coin.<br />")
+            color: Theme.secondaryColor
+            font.pixelSize: Theme.fontSizeTiny
+            horizontalAlignment: Text.AlignHLeft
+            wrapMode: Text.WordWrap
+            elide: Text.ElideMiddle
+            width: parent.width * 0.9
+            visible: (!btcEnabled && !drkEnabled && !cloakEnabled && !xmrEnabled && !xcEnabled && !cachEnabled)
+        }
+        Label {
+            id: coverFooter
+            x: Theme.paddingMedium
+            text: qsTr("<br /><br />")
+            color: Theme.secondaryColor
+            font.pixelSize: Theme.fontSizeTiny
+            horizontalAlignment: Text.AlignHLeft
+            wrapMode: Text.WordWrap
+            elide: Text.ElideMiddle
+            width: parent.width * 0.9
+            visible: !(btcEnabled && drkEnabled && cloakEnabled && xmrEnabled && xcEnabled && cachEnabled)
+        }
     }
-//    CoverActionList {
-//        id: coverActionList
-//        CoverAction {
-//            id: coverAction
-//            iconSource: coverDrkEnabled ? "image://theme/icon-cover-next" : "image://theme/icon-cover-previous"
-//            onTriggered: {
-//                coverDrkEnabled = !coverDrkEnabled
-//                drkApp.drkTicker.update()
-//                coverCycle = 0
-//                coverPage.refresh()
-//            }
-//        }
-//    }
+    CoverActionList {
+        id: coverActionList
+        CoverAction {
+            id: coverAction
+            iconSource: (btcEnabled && drkEnabled && cloakEnabled && xmrEnabled && xcEnabled && cachEnabled) ? false : "image://theme/icon-cover-refresh"
+            onTriggered: {
+                if (!offlineMode) {
+                    drkApp.drkTicker.update()
+                    coverCycle = 0
+                    coverPage.refresh()
+                }
+            }
+        }
+    }
 }
 
 

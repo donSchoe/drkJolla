@@ -22,7 +22,7 @@ Page {
     id: firstPage
     property int firstCycle: 0
     property int updateInterval: drkApp.drkTicker.updateInterval()
-    property bool active: status !== PageStatus.Inactive
+    property bool active: status === PageStatus.Active
     property bool offlineMode: drkApp.drkTicker.isOfflineMode()
     property bool btcEnabled: drkApp.drkTicker.isBtcEnabled()
     property bool drkEnabled: drkApp.drkTicker.isDrkEnabled()
@@ -182,7 +182,7 @@ Page {
             Label {
                 id: firstAboutDrk
                 x: Theme.paddingMedium
-                text: qsTr("Darkcoin is a digital crypto-currency build for a maximum of privacy.<br />")
+                text: qsTr("Darkcoin is the first digital crypto-currency build for a maximum of privacy.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
@@ -325,7 +325,7 @@ Page {
             Label {
                 id: firstAboutCloak
                 x: Theme.paddingMedium
-                text: qsTr("Cloakcoin is a digital crypto-currency.<br />")
+                text: qsTr("Cloakcoin is a crypto-currency that will feature decentralized p2p-anonymization features via Proof-of-Stake protocol extensions.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
@@ -392,7 +392,7 @@ Page {
             Label {
                 id: firstAboutXmr
                 x: Theme.paddingMedium
-                text: qsTr("Monero is a digital crypto-currency.<br />")
+                text: qsTr("Monero is a new privacy-centric coin which aims to be a fungible and untraceable digital medium of exchange.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
@@ -449,7 +449,7 @@ Page {
             Label {
                 id: firstAboutXc
                 x: Theme.paddingMedium
-                text: qsTr("XCurrency is a digital crypto-currency.<br />")
+                text: qsTr("XCurrency is a platform for private transactions, communication and services.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
