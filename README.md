@@ -1,4 +1,4 @@
-drkJolla 0.1.5-1
+drkJolla 0.1.5-2
 ================
 
 Your anon-crypto price ticker app for your Jolla / Sailfish device.

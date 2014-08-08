@@ -21,8 +21,8 @@
 namespace {
     static const int     VERSION_MAJOR   = 1;
     static const int     VERSION_MINOR   = 5;
-    static const QString VERSION_STRING  = "1";
-    static const QString RELEASE_DATE    = "07/August/2014";
+    static const QString VERSION_STRING  = "2";
+    static const QString RELEASE_DATE    = "08/August/2014";
 }
 
 TickerHandler::TickerHandler(QObject *parent)

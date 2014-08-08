@@ -14,7 +14,7 @@ Name:       harbour-drkjolla
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    drkJolla Crypto Price Ticker
 Version:    0.1.5
-Release:    1
+Release:    2
 Group:      Applications/Internet
 License:    GPLv3
 URL:        https://github.com/donSchoe/drkjolla
