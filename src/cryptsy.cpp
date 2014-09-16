@@ -31,6 +31,9 @@ namespace {
     static const QString DRK_USD = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=213";
     static const QString DRK_BTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=155";
     static const QString DRK_LTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=214";
+    static const QString ANC_BTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=66";
+    static const QString ANC_LTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=121";
+    static const QString BTCD_BTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=256";
     static const QString CLOAK_BTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=227";
     static const QString CLOAK_LTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=228";
     static const QString XC_BTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=210";
@@ -44,6 +47,9 @@ Cryptsy::Cryptsy(QObject *parent)
     ,   m_pairDrkUsd(-1.0f)
     ,   m_pairDrkBtc(-1.0f)
     ,   m_pairDrkLtc(-1.0f)
+    ,   m_pairAncBtc(-1.0f)
+    ,   m_pairAncLtc(-1.0f)
+    ,   m_pairBtcdBtc(-1.0f)
     ,   m_pairCloakBtc(-1.0f)
     ,   m_pairCloakLtc(-1.0f)
     ,   m_pairXcBtc(-1.0f)
@@ -53,6 +59,9 @@ Cryptsy::Cryptsy(QObject *parent)
     ,   m_drkUsdManager(this)
     ,   m_drkBtcManager(this)
     ,   m_drkLtcManager(this)
+    ,   m_ancBtcManager(this)
+    ,   m_ancLtcManager(this)
+    ,   m_btcdBtcManager(this)
     ,   m_cloakBtcManager(this)
     ,   m_cloakLtcManager(this)
     ,   m_xcBtcManager(this)
@@ -63,6 +72,9 @@ Cryptsy::Cryptsy(QObject *parent)
     connect(&m_drkUsdManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDrkUsdResult(QNetworkReply*)));
     connect(&m_drkBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDrkBtcResult(QNetworkReply*)));
     connect(&m_drkLtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDrkLtcResult(QNetworkReply*)));
+    connect(&m_ancBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onAncBtcResult(QNetworkReply*)));
+    connect(&m_ancLtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onAncLtcResult(QNetworkReply*)));
+    connect(&m_btcdBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onBtcdBtcResult(QNetworkReply*)));
     connect(&m_cloakBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onCloakBtcResult(QNetworkReply*)));
     connect(&m_cloakLtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onCloakLtcResult(QNetworkReply*)));
     connect(&m_xcBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onXcBtcResult(QNetworkReply*)));
@@ -94,6 +106,21 @@ double Cryptsy::getDrkBtc()
 double Cryptsy::getDrkLtc()
 {
     return m_pairDrkLtc;
+}
+
+double Cryptsy::getAncBtc()
+{
+    return m_pairAncBtc;
+}
+
+double Cryptsy::getAncLtc()
+{
+    return m_pairAncLtc;
+}
+
+double Cryptsy::getBtcdBtc()
+{
+    return m_pairBtcdBtc;
 }
 
 double Cryptsy::getCloakBtc()
@@ -132,6 +159,12 @@ void Cryptsy::fetch()
     m_drkBtcManager.get(request);
     request.setUrl(QUrl(DRK_LTC));
     m_drkLtcManager.get(request);
+    request.setUrl(QUrl(ANC_BTC));
+    m_ancBtcManager.get(request);
+    request.setUrl(QUrl(ANC_LTC));
+    m_ancLtcManager.get(request);
+    request.setUrl(QUrl(BTCD_BTC));
+    m_btcdBtcManager.get(request);
     request.setUrl(QUrl(CLOAK_BTC));
     m_cloakBtcManager.get(request);
     request.setUrl(QUrl(CLOAK_LTC));
@@ -162,6 +195,21 @@ void Cryptsy::onDrkBtcResult(QNetworkReply* reply)
 void Cryptsy::onDrkLtcResult(QNetworkReply* reply)
 {
     m_pairDrkLtc = updatePair(reply);
+}
+
+void Cryptsy::onAncBtcResult(QNetworkReply* reply)
+{
+    m_pairAncBtc = updatePair(reply);
+}
+
+void Cryptsy::onAncLtcResult(QNetworkReply* reply)
+{
+    m_pairAncLtc = updatePair(reply);
+}
+
+void Cryptsy::onBtcdBtcResult(QNetworkReply* reply)
+{
+    m_pairBtcdBtc = updatePair(reply);
 }
 
 void Cryptsy::onCloakBtcResult(QNetworkReply* reply)

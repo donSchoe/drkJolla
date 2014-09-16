@@ -71,7 +71,19 @@ Page {
             Label {
                 id: aboutLicense
                 x: Theme.paddingMedium
-                text: qsTr("<html><style type='text/css'>a:link { color: " + Theme.secondaryHighlightColor + "; }</style><strong>drkJolla</strong> is free software licensed under the GPLv3 available at <a href='https://github.com/donSchoe/drkjolla'>github.com/donSchoe/drkjolla</a>. This program is distributed in the hope that it will be useful, but without any warranty. See the GNU General Public License for more details. Cryptocoin prices are fetched from the <a href='http://bitfinex.com'>bitfinex.com</a>, <a href='http://cryptsy.com'>cryptsy.com</a>, <a href='http://mintpal.com'>mintpal.com</a> and <a href='http://poloniex.com'>poloniex.com</a> APIs.<br /><br /><strong>Darkcoin</strong> is the first digital crypto-currency build for a maximum of privacy. <strong>Cloakcoin</strong> is a crypto-currency that will feature decentralized p2p-anonymization features via Proof-of-Stake protocol extensions. <strong>Monero</strong> is a new privacy-centric coin which aims to be a fungible and untraceable digital medium of exchange. <strong>XCurrency</strong> is a platform for private transactions, communication and services. <strong>Cachecoin</strong> is crypto-project that aims to improve the altcoin ecosystem. The software is free, released under the MIT license, &copy; 2009-2013 by the Bitcoin developers, &copy; 2011-2012 by the Peercoin developers, &copy; 2011-2013 by the Litecoin developers, &copy; 2013-2014 by the Darkcoin developers, &copy; 2013-2014 by the Bytecoin and Bitmonero teams, &copy; 2014 by the Cloakcoin developers, &copy; 2014 by the XCurrency developers and &copy; 2014 by the Cachecoin project available at <a href='http://darkcoin.io'>darkcoin.io</a>, <a href='http://www.cloakcoin.com'>cloakcoin.com</a>, <a href='http://www.monero.cc'>monero.cc</a>, <a href='http://www.xc-official.com'>xc-official.com</a> and <a href='http://cachecoin.org/'>cachecoin.org</a> - Bitcoin is available at <a href='http://bitcoin.org'>bitcoin.org</a>, Litecoin at <a href='http://litecoin.org'>litecoin.org</a>, Peercoin at <a href='http://peercoin.net'>peercoin.net</a> and Bytecoin at <a href='http://bytecoin.org'>bytecoin.org</a>.<br /><br /></html>")
+                text: qsTr("<html><style type='text/css'>a:link { color: " + Theme.secondaryHighlightColor + "; }</style>
+<strong>drkJolla</strong> is free software licensed under the GPLv3 available at <a href='https://github.com/donSchoe/drkjolla'>github.com/donSchoe/drkjolla</a>.
+This program is distributed in the hope that it will be useful, but without any warranty.
+See the GNU General Public License for more details.
+Cryptocoin prices are fetched from the <a href='http://bitfinex.com'>bitfinex.com</a>, <a href='http://cryptsy.com'>cryptsy.com</a>, <a href='http://mintpal.com'>mintpal.com</a> and <a href='http://poloniex.com'>poloniex.com</a> APIs.<br /><br />
+<strong>Darkcoin</strong> is the first digital crypto-currency build for a maximum of privacy.
+<strong>Anoncoin</strong> was created with the goal of being a truly anonymous cryptocurrency.
+<strong>BitcoinDark</strong> is a community driven project which aims to fulfill the original ideals of crypto-currency: Decentralization, Openness, and Anonymity.
+<strong>Monero</strong> is a new privacy-centric coin which aims to be a fungible and untraceable digital medium of exchange.
+<strong>XCurrency</strong> is a platform for private transactions, communication and services.
+<strong>Cloakcoin</strong> is a crypto-currency that will feature decentralized p2p-anonymization features via Proof-of-Stake protocol extensions.
+<strong>Cachecoin</strong> is crypto-project that aims to improve the altcoin ecosystem.
+The software is free, released under the MIT license, &copy; 2009-2013 by the Bitcoin developers, &copy; 2011-2012 by the Peercoin developers, &copy; 2011-2013 by the Litecoin developers, &copy; 2013-2014 by the Darkcoin developers, &copy; 2013-2014 by the Anoncoin developers, &copy; 2013-2014 by the Bytecoin and Bitmonero teams, &copy; 2014 by the BitcoinDark developers, &copy; 2014 by the XCurrency developers and &copy, &copy; 2014 by the Cloakcoin developers, 2014 by the Cachecoin project available at <a href='http://darkcoin.io'>darkcoin.io</a>, <a href='https://anoncoin.net'>anoncoin.net</a>, <a href='http://www.monero.cc'>monero.cc</a>, <a href='http://http://bitcoindark.pw'>bitcoindark.pw</a>, <a href='http://www.xc-official.com'>xc-official.com</a>, <a href='http://www.cloakcoin.com'>cloakcoin.com</a> and <a href='http://cachecoin.org/'>cachecoin.org</a> - Bitcoin is available at <a href='http://bitcoin.org'>bitcoin.org</a>, Litecoin at <a href='http://litecoin.org'>litecoin.org</a>, Peercoin at <a href='http://peercoin.net'>peercoin.net</a> and Bytecoin at <a href='http://bytecoin.org'>bytecoin.org</a>.<br /><br /></html>")
                 color: Theme.secondaryColor
                 textFormat: Text.RichText
                 font.pixelSize: Theme.fontSizeTiny
@@ -95,7 +107,9 @@ Page {
             Label {
                 id: aboutCoinAddress
                 x: Theme.paddingMedium
-                text: qsTr("Bitcoin: 1Bzc7PatbRzXz6EAmvSuBuoWED96qy3zgc<br />Darkcoin: XsWp6DXrEiEtBpyU5YMctXf15BYNHhufrG<br /><br />")
+                text: qsTr("<html><style type='text/css'>a:link { color: " + Theme.secondaryHighlightColor + "; }</style>
+Bitcoin: <a href='bitcoin://1Bzc7PatbRzXz6EAmvSuBuoWED96qy3zgc'>1Bzc7PatbRzXz6EAmvSuBuoWED96qy3zgc</a><br />
+Darkcoin: <a href='darkcoin://XsWp6DXrEiEtBpyU5YMctXf15BYNHhufrG'>XsWp6DXrEiEtBpyU5YMctXf15BYNHhufrG</a><br /><br />")
                 color: Theme.secondaryColor
                 textFormat: Text.RichText
                 font.pixelSize: Theme.fontSizeTiny

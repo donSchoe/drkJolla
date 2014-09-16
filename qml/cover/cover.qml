@@ -20,41 +20,32 @@ import Sailfish.Silica 1.0
 
 CoverBackground {
     id: coverPage
-    property int coverCycle: 0
-    property int updateInterval: drkApp.drkTicker.updateInterval()
     property bool coverActive: status === Cover.Active
     property bool coverDrkEnabled: true
     property bool offlineMode: drkApp.drkTicker.isOfflineMode()
     property bool btcEnabled: drkApp.drkTicker.isBtcEnabled()
     property bool drkEnabled: drkApp.drkTicker.isDrkEnabled()
-    property bool cloakEnabled: drkApp.drkTicker.isCloakEnabled()
+    property bool ancEnabled: drkApp.drkTicker.isAncEnabled()
     property bool xmrEnabled: drkApp.drkTicker.isXmrEnabled()
     property bool xcEnabled: drkApp.drkTicker.isXcEnabled()
-    property bool cachEnabled: drkApp.drkTicker.isCachEnabled()
+    property bool btcdEnabled: drkApp.drkTicker.isBtcdEnabled()
     function refresh() {
         if (coverActive) {
-            updateInterval = drkApp.drkTicker.updateInterval()
             offlineMode = drkApp.drkTicker.isOfflineMode()
             btcEnabled = drkApp.drkTicker.isBtcEnabled()
             drkEnabled = drkApp.drkTicker.isDrkEnabled()
-            cloakEnabled = drkApp.drkTicker.isCloakEnabled()
+            ancEnabled = drkApp.drkTicker.isAncEnabled()
             xmrEnabled = drkApp.drkTicker.isXmrEnabled()
             xcEnabled = drkApp.drkTicker.isXcEnabled()
-            cachEnabled = drkApp.drkTicker.isCachEnabled()
+            btcdEnabled = drkApp.drkTicker.isBtcdEnabled()
             coverBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
             coverDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
-            coverCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
+            coverAncBtc.text = drkApp.drkTicker.cryptsyAncBtc()
             coverXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
             coverXcBtc.text = drkApp.drkTicker.mintpalXcBtc()
-            coverCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
-            if (coverCycle > (60 * updateInterval)) {
-                if (!offlineMode && coverActive) {
-                    drkApp.drkTicker.update()
-                }
-                coverCycle = 0
-            }
-            else {
-                coverCycle = coverCycle + 1
+            coverBtcdBtc.text = drkApp.drkTicker.cryptsyBtcdBtc()
+            if (!offlineMode && coverActive) {
+                drkApp.drkTicker.update()
             }
         }
     }
@@ -107,17 +98,34 @@ CoverBackground {
             font.pixelSize: Theme.fontSizeTiny
         }
         Label {
-            id: coverCloak
-            text: qsTr("Cloakcoin")
-            visible: cloakEnabled
+            id: coverAnc
+            text: qsTr("Anoncoin")
+            visible: ancEnabled
             width: parent.width
             horizontalAlignment: Text.AlignLeft
             font.pixelSize: Theme.fontSizeTiny
         }
         Label {
-            id: coverCloakBtc
-            text: qsTr(drkApp.drkTicker.mintpalCloakBtc())
-            visible: cloakEnabled
+            id: coverAncBtc
+            text: qsTr(drkApp.drkTicker.cryptsyAncBtc())
+            visible: ancEnabled
+            width: parent.width
+            color: Theme.highlightColor
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Theme.fontSizeTiny
+        }
+        Label {
+            id: coverBtcd
+            text: qsTr("BitcoinDark")
+            visible: btcdEnabled
+            width: parent.width
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: Theme.fontSizeTiny
+        }
+        Label {
+            id: coverBtcdBtc
+            text: qsTr(drkApp.drkTicker.cryptsyBtcdBtc())
+            visible: btcdEnabled
             width: parent.width
             color: Theme.highlightColor
             horizontalAlignment: Text.AlignHCenter
@@ -158,23 +166,6 @@ CoverBackground {
             font.pixelSize: Theme.fontSizeTiny
         }
         Label {
-            id: coverCach
-            text: qsTr("Cachecoin")
-            visible: cachEnabled
-            width: parent.width
-            horizontalAlignment: Text.AlignLeft
-            font.pixelSize: Theme.fontSizeTiny
-        }
-        Label {
-            id: coverCachBtc
-            text: qsTr(drkApp.drkTicker.cryptsyCachBtc())
-            visible: cachEnabled
-            width: parent.width
-            color: Theme.highlightColor
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeTiny
-        }
-        Label {
             id: coverWarningOffline
             x: Theme.paddingMedium
             text: qsTr("<br />You have no tickers enabled. Please review your settings and select at least one coin.<br />")
@@ -184,7 +175,7 @@ CoverBackground {
             wrapMode: Text.WordWrap
             elide: Text.ElideMiddle
             width: parent.width * 0.9
-            visible: (!btcEnabled && !drkEnabled && !cloakEnabled && !xmrEnabled && !xcEnabled && !cachEnabled)
+            visible: (!btcEnabled && !drkEnabled && !ancEnabled && !xmrEnabled && !xcEnabled && !btcdEnabled)
         }
         Label {
             id: coverFooter
@@ -196,18 +187,17 @@ CoverBackground {
             wrapMode: Text.WordWrap
             elide: Text.ElideMiddle
             width: parent.width * 0.9
-            visible: !(btcEnabled && drkEnabled && cloakEnabled && xmrEnabled && xcEnabled && cachEnabled)
+            visible: !(btcEnabled && drkEnabled && ancEnabled && xmrEnabled && xcEnabled && btcdEnabled)
         }
     }
     CoverActionList {
         id: coverActionList
         CoverAction {
             id: coverAction
-            iconSource: (btcEnabled && drkEnabled && cloakEnabled && xmrEnabled && xcEnabled && cachEnabled) ? false : "image://theme/icon-cover-refresh"
+            iconSource: (btcEnabled && drkEnabled && ancEnabled && xmrEnabled && xcEnabled && btcdEnabled) ? false : "image://theme/icon-cover-refresh"
             onTriggered: {
                 if (!offlineMode) {
                     drkApp.drkTicker.update()
-                    coverCycle = 0
                     coverPage.refresh()
                 }
             }

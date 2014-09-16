@@ -72,10 +72,16 @@ Dialog {
                 description: "Enables the DRK tickers."
             }
             TextSwitch {
-                id: settingsCoinsCloak
-                text: qsTr("Cloakcoin")
-                checked: drkApp.drkTicker.isCloakEnabled()
-                description: "Enables the CLOAK tickers."
+                id: settingsCoinsAnc
+                text: qsTr("Anoncoin")
+                checked: drkApp.drkTicker.isAncEnabled()
+                description: "Enables the ANC tickers."
+            }
+            TextSwitch {
+                id: settingsCoinsBtcd
+                text: qsTr("BitcoinDark")
+                checked: drkApp.drkTicker.isBtcdEnabled()
+                description: "Enables the BTCD tickers."
             }
             TextSwitch {
                 id: settingsCoinsXmr
@@ -88,6 +94,12 @@ Dialog {
                 text: qsTr("XCurrency")
                 checked: drkApp.drkTicker.isXcEnabled()
                 description: "Enables the XC tickers."
+            }
+            TextSwitch {
+                id: settingsCoinsCloak
+                text: qsTr("Cloakcoin")
+                checked: drkApp.drkTicker.isCloakEnabled()
+                description: "Enables the CLOAK tickers."
             }
             TextSwitch {
                 id: settingsCoinsCach
@@ -165,6 +177,8 @@ Dialog {
           if (result === DialogResult.Accepted) {
               drkApp.drkTicker.setBtcEnabled(settingsCoinsBtc.checked);
               drkApp.drkTicker.setDrkEnabled(settingsCoinsDrk.checked);
+              drkApp.drkTicker.setAncEnabled(settingsCoinsAnc.checked);
+              drkApp.drkTicker.setBtcdEnabled(settingsCoinsBtcd.checked);
               drkApp.drkTicker.setCloakEnabled(settingsCoinsCloak.checked);
               drkApp.drkTicker.setXmrEnabled(settingsCoinsXmr.checked);
               drkApp.drkTicker.setXcEnabled(settingsCoinsXc.checked);

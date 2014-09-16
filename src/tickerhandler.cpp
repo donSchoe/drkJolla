@@ -15,18 +15,20 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDateTime>
 #include <QStandardPaths>
 #include "tickerhandler.h"
 
 namespace {
     static const int     VERSION_MAJOR   = 1;
-    static const int     VERSION_MINOR   = 5;
-    static const QString VERSION_STRING  = "2";
-    static const QString RELEASE_DATE    = "08/August/2014";
+    static const int     VERSION_MINOR   = 6;
+    static const QString VERSION_STRING  = "1";
+    static const QString RELEASE_DATE    = "16/September/2014";
 }
 
 TickerHandler::TickerHandler(QObject *parent)
   :   QObject(parent)
+  ,   m_updated(1)
   ,   m_bitfinex(this)
   ,   m_mintpal(this)
   ,   m_cryptsy(this)
@@ -89,6 +91,28 @@ void TickerHandler::setDefaults()
         setDrkEnabled();
     }
 
+    if (m_settings.allKeys().contains("coins/anc", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("coins");
+        setAncEnabled(m_settings.value("anc", true).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setAncEnabled();
+    }
+
+    if (m_settings.allKeys().contains("coins/btcd", Qt::CaseInsensitive))
+    {
+        m_settings.beginGroup("coins");
+        setBtcdEnabled(m_settings.value("btcd", true).toBool());
+        m_settings.endGroup();
+    }
+    else
+    {
+        setBtcdEnabled();
+    }
+
     if (m_settings.allKeys().contains("coins/cloak", Qt::CaseInsensitive))
     {
         m_settings.beginGroup("coins");
@@ -134,14 +158,18 @@ void TickerHandler::setDefaults()
     }
 }
 
-void TickerHandler::update()
+void TickerHandler::update(bool forced)
 {
-    if (!isOfflineMode())
+    if (!isOfflineMode() || forced)
     {
-        m_bitfinex.fetch();
-        m_mintpal.fetch();
-        m_cryptsy.fetch();
-        m_poloniex.fetch();
+        if (m_updated <= (QDateTime().currentDateTime().toTime_t() - (m_updateInterval * 60)) || forced)
+        {
+            m_bitfinex.fetch();
+            m_mintpal.fetch();
+            m_cryptsy.fetch();
+            m_poloniex.fetch();
+            m_updated = QDateTime().currentDateTime().toTime_t();
+        }
     }
 }
 
@@ -199,6 +227,30 @@ void TickerHandler::setDrkEnabled(bool enabled)
     m_settings.beginGroup("coins");
     m_settings.endGroup();
     m_drkEnabled = enabled;
+}
+
+void TickerHandler::setAncEnabled(bool enabled)
+{
+    m_settings.beginGroup("coins");
+    m_settings.setValue("anc", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("coins");
+    m_settings.endGroup();
+    m_ancEnabled = enabled;
+}
+
+void TickerHandler::setBtcdEnabled(bool enabled)
+{
+    m_settings.beginGroup("coins");
+    m_settings.setValue("btcd", enabled);
+    m_settings.endGroup();
+    m_settings.sync();
+    sync();
+    m_settings.beginGroup("coins");
+    m_settings.endGroup();
+    m_btcdEnabled = enabled;
 }
 
 void TickerHandler::setCloakEnabled(bool enabled)
@@ -267,6 +319,16 @@ bool TickerHandler::isBtcEnabled()
 bool TickerHandler::isDrkEnabled()
 {
     return m_drkEnabled;
+}
+
+bool TickerHandler::isAncEnabled()
+{
+    return m_ancEnabled;
+}
+
+bool TickerHandler::isBtcdEnabled()
+{
+    return m_btcdEnabled;
 }
 
 bool TickerHandler::isCloakEnabled()
@@ -371,7 +433,7 @@ QString TickerHandler::mintpalDrkLtc()
     if (isDrkEnabled()) {
         if (m_mintpal.getDrkLtc() > 0.0f)
         {
-            ticker = QString("LTC ").append(QString::number(m_mintpal.getDrkLtc(), 'f', 5));
+            ticker = QString("LTC ").append(QString::number(m_mintpal.getDrkLtc(), 'f', 3));
         }
         else
         {
@@ -390,7 +452,7 @@ QString TickerHandler::mintpalCloakBtc()
     if (isCloakEnabled()) {
         if (m_mintpal.getCloakBtc() > 0.0f)
         {
-            ticker = QString("BTC ").append(QString::number(m_mintpal.getCloakBtc(), 'f', 5));
+            ticker = QString("BTC ").append(QString::number(m_mintpal.getCloakBtc(), 'f', 7));
         }
         else
         {
@@ -466,7 +528,7 @@ QString TickerHandler::cryptsyDrkUsd()
     if (isDrkEnabled()) {
         if (m_cryptsy.getDrkUsd() > 0.0f)
         {
-            ticker = QString("USD ").append(QString::number(m_cryptsy.getDrkUsd(), 'f', 3));
+            ticker = QString("USD ").append(QString::number(m_cryptsy.getDrkUsd(), 'f', 2));
         }
         else
         {
@@ -504,11 +566,68 @@ QString TickerHandler::cryptsyDrkLtc()
     if (isDrkEnabled()) {
         if (m_cryptsy.getDrkLtc() > 0.0f)
         {
-            ticker = QString("LTC ").append(QString::number(m_cryptsy.getDrkLtc(), 'f', 5));
+            ticker = QString("LTC ").append(QString::number(m_cryptsy.getDrkLtc(), 'f', 3));
         }
         else
         {
             ticker = QString("LTC ---");
+        }
+        if (isOfflineMode()) {
+            ticker = ticker.append(" (cached)");
+        }
+    }
+    return ticker;
+}
+
+QString TickerHandler::cryptsyAncBtc()
+{
+    QString ticker("ANC disabled.");
+    if (isAncEnabled()) {
+        if (m_cryptsy.getAncBtc() > 0.0f)
+        {
+            ticker = QString("BTC ").append(QString::number(m_cryptsy.getAncBtc(), 'f', 5));
+        }
+        else
+        {
+            ticker = QString("BTC ---");
+        }
+        if (isOfflineMode()) {
+            ticker = ticker.append(" (cached)");
+        }
+    }
+    return ticker;
+}
+
+QString TickerHandler::cryptsyAncLtc()
+{
+    QString ticker("ANC disabled.");
+    if (isAncEnabled()) {
+        if (m_cryptsy.getAncLtc() > 0.0f)
+        {
+            ticker = QString("LTC ").append(QString::number(m_cryptsy.getAncLtc(), 'f', 3));
+        }
+        else
+        {
+            ticker = QString("LTC ---");
+        }
+        if (isOfflineMode()) {
+            ticker = ticker.append(" (cached)");
+        }
+    }
+    return ticker;
+}
+
+QString TickerHandler::cryptsyBtcdBtc()
+{
+    QString ticker("BTCD disabled.");
+    if (isBtcdEnabled()) {
+        if (m_cryptsy.getBtcdBtc() > 0.0f)
+        {
+            ticker = QString("BTC ").append(QString::number(m_cryptsy.getBtcdBtc(), 'f', 5));
+        }
+        else
+        {
+            ticker = QString("BTC ---");
         }
         if (isOfflineMode()) {
             ticker = ticker.append(" (cached)");
@@ -523,7 +642,7 @@ QString TickerHandler::cryptsyCloakBtc()
     if (isCloakEnabled()) {
         if (m_cryptsy.getCloakBtc() > 0.0f)
         {
-            ticker = QString("BTC ").append(QString::number(m_cryptsy.getCloakBtc(), 'f', 5));
+            ticker = QString("BTC ").append(QString::number(m_cryptsy.getCloakBtc(), 'f', 7));
         }
         else
         {
@@ -580,7 +699,7 @@ QString TickerHandler::cryptsyXcLtc()
     if (isXcEnabled()) {
         if (m_cryptsy.getXcLtc() > 0.0f)
         {
-            ticker = QString("LTC ").append(QString::number(m_cryptsy.getXcLtc(), 'f', 5));
+            ticker = QString("LTC ").append(QString::number(m_cryptsy.getXcLtc(), 'f', 3));
         }
         else
         {
@@ -604,6 +723,44 @@ QString TickerHandler::cryptsyCachBtc()
         else
         {
             ticker = QString("BTC ---");
+        }
+        if (isOfflineMode()) {
+            ticker = ticker.append(" (cached)");
+        }
+    }
+    return ticker;
+}
+
+QString TickerHandler::poloniexBtcUsd()
+{
+    QString ticker("BTC disabled.");
+    if (isBtcEnabled()) {
+        if (m_poloniex.getBtcUsd() > 0.0f)
+        {
+            ticker = QString("USD ").append(QString::number(m_poloniex.getBtcUsd(), 'f', 2));
+        }
+        else
+        {
+            ticker = QString("USD ---");
+        }
+        if (isOfflineMode()) {
+            ticker = ticker.append(" (cached)");
+        }
+    }
+    return ticker;
+}
+
+QString TickerHandler::poloniexXmrUsd()
+{
+    QString ticker("XMR disabled.");
+    if (isXmrEnabled()) {
+        if (m_poloniex.getXmrUsd() > 0.0f)
+        {
+            ticker = QString("USD ").append(QString::number(m_poloniex.getXmrUsd(), 'f', 2));
+        }
+        else
+        {
+            ticker = QString("USD ---");
         }
         if (isOfflineMode()) {
             ticker = ticker.append(" (cached)");
@@ -638,6 +795,44 @@ QString TickerHandler::poloniexDrkXmr()
         if (m_poloniex.getDrkXmr() > 0.0f)
         {
             ticker = QString("XMR ").append(QString::number(m_poloniex.getDrkXmr(), 'f', 3));
+        }
+        else
+        {
+            ticker = QString("XMR ---");
+        }
+        if (isOfflineMode()) {
+            ticker = ticker.append(" (cached)");
+        }
+    }
+    return ticker;
+}
+
+QString TickerHandler::poloniexBtcdBtc()
+{
+    QString ticker("BTCD disabled.");
+    if (isBtcdEnabled()) {
+        if (m_poloniex.getBtcdBtc() > 0.0f)
+        {
+            ticker = QString("BTC ").append(QString::number(m_poloniex.getBtcdBtc(), 'f', 5));
+        }
+        else
+        {
+            ticker = QString("BTC ---");
+        }
+        if (isOfflineMode()) {
+            ticker = ticker.append(" (cached)");
+        }
+    }
+    return ticker;
+}
+
+QString TickerHandler::poloniexBtcdXmr()
+{
+    QString ticker("BTCD disabled.");
+    if (isBtcdEnabled()) {
+        if (m_poloniex.getBtcdXmr() > 0.0f)
+        {
+            ticker = QString("XMR ").append(QString::number(m_poloniex.getBtcdXmr(), 'f', 3));
         }
         else
         {

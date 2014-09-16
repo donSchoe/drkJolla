@@ -30,6 +30,9 @@ public:
     double getDrkUsd();
     double getDrkBtc();
     double getDrkLtc();
+    double getAncBtc();
+    double getAncLtc();
+    double getBtcdBtc();
     double getCloakBtc();
     double getCloakLtc();
     double getXcBtc();
@@ -43,6 +46,9 @@ public slots:
     void onDrkUsdResult(QNetworkReply* reply);
     void onDrkBtcResult(QNetworkReply* reply);
     void onDrkLtcResult(QNetworkReply* reply);
+    void onAncBtcResult(QNetworkReply* reply);
+    void onAncLtcResult(QNetworkReply* reply);
+    void onBtcdBtcResult(QNetworkReply* reply);
     void onCloakBtcResult(QNetworkReply* reply);
     void onCloakLtcResult(QNetworkReply* reply);
     void onXcBtcResult(QNetworkReply* reply);
@@ -57,6 +63,9 @@ private:
     double m_pairDrkUsd;
     double m_pairDrkBtc;
     double m_pairDrkLtc;
+    double m_pairAncBtc;
+    double m_pairAncLtc;
+    double m_pairBtcdBtc;
     double m_pairCloakBtc;
     double m_pairCloakLtc;
     double m_pairXcBtc;
@@ -67,6 +76,9 @@ private:
     QNetworkAccessManager m_drkUsdManager;
     QNetworkAccessManager m_drkBtcManager;
     QNetworkAccessManager m_drkLtcManager;
+    QNetworkAccessManager m_ancBtcManager;
+    QNetworkAccessManager m_ancLtcManager;
+    QNetworkAccessManager m_btcdBtcManager;
     QNetworkAccessManager m_cloakBtcManager;
     QNetworkAccessManager m_cloakLtcManager;
     QNetworkAccessManager m_xcBtcManager;

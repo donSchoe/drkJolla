@@ -33,21 +33,25 @@ public:
 
 public slots:
     void setDefaults();
-    void update();
+    void update(bool forced = false);
 
     void setUpdateInterval(int interval = 5);
     void setOfflineMode(bool enabled = false);
-    void setBtcEnabled(bool enabled = true);
+    void setBtcEnabled(bool enabled = false);
     void setDrkEnabled(bool enabled = true);
-    void setCloakEnabled(bool enabled = true);
+    void setAncEnabled(bool enabled = true);
+    void setBtcdEnabled(bool enabled = true);
+    void setCloakEnabled(bool enabled = false);
     void setXmrEnabled(bool enabled = true);
     void setXcEnabled(bool enabled = true);
-    void setCachEnabled(bool enabled = true);
+    void setCachEnabled(bool enabled = false);
 
     int updateInterval();
     bool isOfflineMode();
     bool isBtcEnabled();
     bool isDrkEnabled();
+    bool isAncEnabled();
+    bool isBtcdEnabled();
     bool isCloakEnabled();
     bool isXmrEnabled();
     bool isXcEnabled();
@@ -65,13 +69,20 @@ public slots:
     QString cryptsyDrkUsd();
     QString cryptsyDrkBtc();
     QString cryptsyDrkLtc();
+    QString cryptsyAncBtc();
+    QString cryptsyAncLtc();
+    QString cryptsyBtcdBtc();
     QString cryptsyCloakBtc();
     QString cryptsyCloakLtc();
     QString cryptsyXcBtc();
     QString cryptsyXcLtc();
     QString cryptsyCachBtc();
+    QString poloniexBtcUsd();
+    QString poloniexXmrUsd();
     QString poloniexDrkBtc();
     QString poloniexDrkXmr();
+    QString poloniexBtcdBtc();
+    QString poloniexBtcdXmr();
     QString poloniexXcBtc();
     QString poloniexXmrBtc();
     QString poloniexCachBtc();
@@ -81,9 +92,12 @@ public slots:
 
 private:
     int m_updateInterval;
+    uint m_updated;
     bool m_offlineMode;
     bool m_btcEnabled;
     bool m_drkEnabled;
+    bool m_ancEnabled;
+    bool m_btcdEnabled;
     bool m_cloakEnabled;
     bool m_xmrEnabled;
     bool m_xcEnabled;

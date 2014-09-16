@@ -26,8 +26,12 @@ public:
     explicit PoloniEx(QObject *parent = 0);
     ~PoloniEx();
 
+    double getBtcUsd();
+    double getXmrUsd();
     double getDrkBtc();
     double getDrkXmr();
+    double getBtcdBtc();
+    double getBtcdXmr();
     double getXcBtc();
     double getXmrBtc();
     double getCachBtc();
@@ -38,8 +42,12 @@ public slots:
     void onTickerResult(QNetworkReply* reply);
 
 private:
+    double m_pairBtcUsd;
+    double m_pairXmrUsd;
     double m_pairDrkBtc;
     double m_pairDrkXmr;
+    double m_pairBtcdBtc;
+    double m_pairBtcdXmr;
     double m_pairXcBtc;
     double m_pairXmrBtc;
     double m_pairCachBtc;

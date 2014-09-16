@@ -20,12 +20,13 @@ import Sailfish.Silica 1.0
 
 Page {
     id: firstPage
-    property int firstCycle: 0
     property int updateInterval: drkApp.drkTicker.updateInterval()
     property bool active: status === PageStatus.Active
     property bool offlineMode: drkApp.drkTicker.isOfflineMode()
     property bool btcEnabled: drkApp.drkTicker.isBtcEnabled()
     property bool drkEnabled: drkApp.drkTicker.isDrkEnabled()
+    property bool ancEnabled: drkApp.drkTicker.isAncEnabled()
+    property bool btcdEnabled: drkApp.drkTicker.isBtcdEnabled()
     property bool cloakEnabled: drkApp.drkTicker.isCloakEnabled()
     property bool xmrEnabled: drkApp.drkTicker.isXmrEnabled()
     property bool xcEnabled: drkApp.drkTicker.isXcEnabled()
@@ -36,12 +37,15 @@ Page {
             offlineMode = drkApp.drkTicker.isOfflineMode()
             btcEnabled = drkApp.drkTicker.isBtcEnabled()
             drkEnabled = drkApp.drkTicker.isDrkEnabled()
+            ancEnabled = drkApp.drkTicker.isAncEnabled()
+            btcdEnabled = drkApp.drkTicker.isBtcdEnabled()
             cloakEnabled = drkApp.drkTicker.isCloakEnabled()
             xmrEnabled = drkApp.drkTicker.isXmrEnabled()
             xcEnabled = drkApp.drkTicker.isXcEnabled()
             cachEnabled = drkApp.drkTicker.isCachEnabled()
             firstBitfinexBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
             firstCryptsyBtcUsd.text = drkApp.drkTicker.cryptsyBtcUsd()
+            firstPoloniexBtcUsd.text = drkApp.drkTicker.poloniexBtcUsd()
             firstBitfinexDrkUsd.text = drkApp.drkTicker.bitfinexDrkUsd()
             firstBitfinexDrkBtc.text = drkApp.drkTicker.bitfinexDrkBtc()
             firstCryptsyDrkUsd.text = drkApp.drkTicker.cryptsyDrkUsd()
@@ -51,10 +55,16 @@ Page {
             firstMintpalDrkLtc.text = drkApp.drkTicker.mintpalDrkLtc()
             firstPoloniexDrkBtc.text = drkApp.drkTicker.poloniexDrkBtc()
             firstPoloniexDrkXmr.text = drkApp.drkTicker.poloniexDrkXmr()
+            firstPoloniexBtcdBtc.text = drkApp.drkTicker.poloniexBtcdBtc()
+            firstPoloniexBtcdXmr.text = drkApp.drkTicker.poloniexBtcdXmr()
+            firstCryptsyAncBtc.text = drkApp.drkTicker.cryptsyAncBtc()
+            firstCryptsyAncLtc.text = drkApp.drkTicker.cryptsyAncLtc()
+            firstCryptsyBtcdBtc.text = drkApp.drkTicker.cryptsyBtcdBtc()
             firstCryptsyCloakBtc.text = drkApp.drkTicker.cryptsyCloakBtc()
             firstCryptsyCloakLtc.text = drkApp.drkTicker.cryptsyCloakLtc()
             firstMintpalCloakBtc.text = drkApp.drkTicker.mintpalCloakBtc()
             firstMintpalXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
+            firstPoloniexXmrUsd.text = drkApp.drkTicker.poloniexXmrUsd()
             firstPoloniexXmrBtc.text = drkApp.drkTicker.poloniexXmrBtc()
             firstCryptsyXcBtc.text = drkApp.drkTicker.cryptsyXcBtc()
             firstCryptsyXcLtc.text = drkApp.drkTicker.cryptsyXcLtc()
@@ -62,14 +72,8 @@ Page {
             firstPoloniexXcBtc.text = drkApp.drkTicker.poloniexXcBtc()
             firstCryptsyCachBtc.text = drkApp.drkTicker.cryptsyCachBtc()
             firstPoloniexCachBtc.text = drkApp.drkTicker.poloniexCachBtc()
-            if (firstCycle > (60 * updateInterval)) {
-                if (!offlineMode && active) {
-                    drkApp.drkTicker.update()
-                }
-                firstCycle = 0
-            }
-            else {
-                firstCycle = firstCycle + 1
+            if (!offlineMode && active) {
+                drkApp.drkTicker.update()
             }
         }
     }
@@ -100,7 +104,7 @@ Page {
                         drkApp.drkTicker.setOfflineMode(false)
                     }
                     else {
-                        firstPage.refresh()
+                        drkApp.drkTicker.update(true)
                     }
                 }
             }
@@ -165,6 +169,24 @@ Page {
             Label {
                 id: firstCryptsyBtcUsd
                 text: qsTr(drkApp.drkTicker.cryptsyBtcUsd())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+                visible: btcEnabled
+            }
+            Label {
+                id: firstPoloniexBtc
+                text: qsTr("Poloniex")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+                visible: btcEnabled
+            }
+            Label {
+                id: firstPoloniexBtcUsd
+                text: qsTr(drkApp.drkTicker.poloniexBtcUsd())
                 width: parent.width
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
@@ -316,71 +338,53 @@ Page {
                 visible: drkEnabled
             }
             Label {
-                id: firstHeadingCloak
-                text: qsTr("<br />Cloakcoin")
+                id: firstHeadingAnc
+                text: qsTr("<br />Anoncoin")
                 width: parent.width
                 color: Theme.secondaryHighlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeExtraLarge
-                visible: cloakEnabled
+                visible: ancEnabled
             }
             Label {
-                id: firstAboutCloak
+                id: firstAboutAnc
                 x: Theme.paddingMedium
-                text: qsTr("Cloakcoin is a crypto-currency that will feature decentralized p2p-anonymization features via Proof-of-Stake protocol extensions.<br />")
+                text: qsTr("Anoncoin was created with the goal of being a truly anonymous cryptocurrency.<br />")
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeTiny
                 horizontalAlignment: Text.AlignHLeft
                 wrapMode: Text.WordWrap
                 elide: Text.ElideMiddle
                 width: parent.width * 0.9
-                visible: cloakEnabled
+                visible: ancEnabled
             }
             Label {
-                id: firstCryptsyCloak
+                id: firstCryptsyAnc
                 text: qsTr("Cryptsy")
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
-                visible: cloakEnabled
+                visible: ancEnabled
             }
             Label {
-                id: firstCryptsyCloakBtc
-                text: qsTr(drkApp.drkTicker.cryptsyCloakBtc())
+                id: firstCryptsyAncBtc
+                text: qsTr(drkApp.drkTicker.cryptsyAncBtc())
                 width: parent.width
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
-                visible: cloakEnabled
+                visible: ancEnabled
             }
             Label {
-                id: firstCryptsyCloakLtc
-                text: qsTr(drkApp.drkTicker.cryptsyCloakLtc())
+                id: firstCryptsyAncLtc
+                text: qsTr(drkApp.drkTicker.cryptsyAncLtc())
                 width: parent.width
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
-                visible: cloakEnabled
-            }
-            Label {
-                id: firstMintpalCloak
-                text: qsTr("Mintpal")
-                width: parent.width
-                horizontalAlignment: Text.AlignLeft
-                font.pixelSize: Theme.fontSizeSmall
-                visible: cloakEnabled
-            }
-            Label {
-                id: firstMintpalCloakBtc
-                text: qsTr(drkApp.drkTicker.mintpalCloakBtc())
-                width: parent.width
-                color: Theme.highlightColor
-                horizontalAlignment: Text.AlignLeft
-                font.pixelSize: Theme.fontSizeLarge
-                x: 3 * Theme.paddingLarge
-                visible: cloakEnabled
+                visible: ancEnabled
             }
             Label {
                 id: firstHeadingXmr
@@ -404,6 +408,34 @@ Page {
                 visible: xmrEnabled
             }
             Label {
+                id: firstPoloniexXmr
+                text: qsTr("Poloniex")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+                visible: xmrEnabled
+            }
+            Label {
+                id: firstPoloniexXmrUsd
+                text: qsTr(drkApp.drkTicker.poloniexXmrUsd())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+                visible: xmrEnabled
+            }
+            Label {
+                id: firstPoloniexXmrBtc
+                text: qsTr(drkApp.drkTicker.poloniexXmrBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+                visible: xmrEnabled
+            }
+            Label {
                 id: firstMintpalMonero
                 text: qsTr("Mintpal")
                 width: parent.width
@@ -422,22 +454,71 @@ Page {
                 visible: xmrEnabled
             }
             Label {
-                id: firstPoloniexXmr
-                text: qsTr("Poloniex")
+                id: firstHeadingBtcd
+                text: qsTr("<br />BitcoinDark")
+                width: parent.width
+                color: Theme.secondaryHighlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeExtraLarge
+                visible: btcdEnabled
+            }
+            Label {
+                id: firstAboutBtcd
+                x: Theme.paddingMedium
+                text: qsTr("BitcoinDark is a community driven project which aims to fulfill the original ideals of crypto-currency: Decentralization, Openness, and Anonymity.<br />")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                horizontalAlignment: Text.AlignHLeft
+                wrapMode: Text.WordWrap
+                elide: Text.ElideMiddle
+                width: parent.width * 0.9
+                visible: btcdEnabled
+            }
+            Label {
+                id: firstCryptsyBtcd
+                text: qsTr("Cryptsy")
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeSmall
-                visible: xmrEnabled
+                visible: btcdEnabled
             }
             Label {
-                id: firstPoloniexXmrBtc
-                text: qsTr(drkApp.drkTicker.poloniexXmrBtc())
+                id: firstCryptsyBtcdBtc
+                text: qsTr(drkApp.drkTicker.cryptsyBtcdBtc())
                 width: parent.width
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
-                visible: xmrEnabled
+                visible: btcdEnabled
+            }
+            Label {
+                id: firstPoloniexBtcd
+                text: qsTr("Poloniex")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+                visible: btcdEnabled
+            }
+            Label {
+                id: firstPoloniexBtcdBtc
+                text: qsTr(drkApp.drkTicker.poloniexBtcdBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+                visible: btcdEnabled
+            }
+            Label {
+                id: firstPoloniexBtcdXmr
+                text: qsTr(drkApp.drkTicker.poloniexBtcdXmr())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+                visible: btcdEnabled
             }
             Label {
                 id: firstHeadingXc
@@ -523,6 +604,73 @@ Page {
                 font.pixelSize: Theme.fontSizeLarge
                 x: 3 * Theme.paddingLarge
                 visible: xcEnabled
+            }
+            Label {
+                id: firstHeadingCloak
+                text: qsTr("<br />Cloakcoin")
+                width: parent.width
+                color: Theme.secondaryHighlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeExtraLarge
+                visible: cloakEnabled
+            }
+            Label {
+                id: firstAboutCloak
+                x: Theme.paddingMedium
+                text: qsTr("Cloakcoin is a crypto-currency that will feature decentralized p2p-anonymization features via Proof-of-Stake protocol extensions.<br />")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                horizontalAlignment: Text.AlignHLeft
+                wrapMode: Text.WordWrap
+                elide: Text.ElideMiddle
+                width: parent.width * 0.9
+                visible: cloakEnabled
+            }
+            Label {
+                id: firstCryptsyCloak
+                text: qsTr("Cryptsy")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+                visible: cloakEnabled
+            }
+            Label {
+                id: firstCryptsyCloakBtc
+                text: qsTr(drkApp.drkTicker.cryptsyCloakBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+                visible: cloakEnabled
+            }
+            Label {
+                id: firstCryptsyCloakLtc
+                text: qsTr(drkApp.drkTicker.cryptsyCloakLtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+                visible: cloakEnabled
+            }
+            Label {
+                id: firstMintpalCloak
+                text: qsTr("Mintpal")
+                width: parent.width
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeSmall
+                visible: cloakEnabled
+            }
+            Label {
+                id: firstMintpalCloakBtc
+                text: qsTr(drkApp.drkTicker.mintpalCloakBtc())
+                width: parent.width
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: Theme.fontSizeLarge
+                x: 3 * Theme.paddingLarge
+                visible: cloakEnabled
             }
             Label {
                 id: firstHeadingCach

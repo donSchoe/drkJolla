@@ -32,8 +32,12 @@ namespace {
 
 PoloniEx::PoloniEx(QObject *parent)
     :   QObject(parent)
+    ,   m_pairBtcUsd(-1.0f)
+    ,   m_pairXmrUsd(-1.0f)
     ,   m_pairDrkBtc(-1.0f)
     ,   m_pairDrkXmr(-1.0f)
+    ,   m_pairBtcdBtc(-1.0f)
+    ,   m_pairBtcdXmr(-1.0f)
     ,   m_pairXcBtc(-1.0f)
     ,   m_pairXmrBtc(-1.0f)
     ,   m_pairCachBtc(-1.0f)
@@ -47,6 +51,16 @@ PoloniEx::~PoloniEx()
 {
 }
 
+double PoloniEx::getBtcUsd()
+{
+    return m_pairBtcUsd;
+}
+
+double PoloniEx::getXmrUsd()
+{
+    return m_pairXmrUsd;
+}
+
 double PoloniEx::getDrkBtc()
 {
     return m_pairDrkBtc;
@@ -55,6 +69,16 @@ double PoloniEx::getDrkBtc()
 double PoloniEx::getDrkXmr()
 {
     return m_pairDrkXmr;
+}
+
+double PoloniEx::getBtcdBtc()
+{
+    return m_pairBtcdBtc;
+}
+
+double PoloniEx::getBtcdXmr()
+{
+    return m_pairBtcdXmr;
 }
 
 double PoloniEx::getXcBtc()
@@ -83,8 +107,12 @@ void PoloniEx::onTickerResult(QNetworkReply* reply)
 {
     if (reply->error() != QNetworkReply::NoError)
     {
+        m_pairBtcUsd = 0.0f;
+        m_pairXmrUsd = 0.0f;
         m_pairDrkBtc = 0.0f;
         m_pairDrkXmr = 0.0f;
+        m_pairBtcdBtc = 0.0f;
+        m_pairBtcdXmr = 0.0f;
         m_pairXcBtc = 0.0f;
         m_pairXmrBtc = 0.0f;
         m_pairCachBtc = 0.0f;
@@ -95,16 +123,42 @@ void PoloniEx::onTickerResult(QNetworkReply* reply)
         QJsonDocument jsonResponse = QJsonDocument::fromJson(data.toUtf8());
         QJsonObject jsonObject = jsonResponse.object();
 
+        QJsonObject jsonBtcUsdObject = jsonObject["XUSD_BTC"].toObject();
+        double tmpBtcUsd = QString(jsonBtcUsdObject["highestBid"].toString()).remove('"').toDouble();
+        QJsonObject jsonXmrUsdObject = jsonObject["XUSD_XMR"].toObject();
+        double tmpXmrUsd = QString(jsonXmrUsdObject["highestBid"].toString()).remove('"').toDouble();
         QJsonObject jsonDrkBtcObject = jsonObject["BTC_DRK"].toObject();
         double tmpDrkBtc = QString(jsonDrkBtcObject["highestBid"].toString()).remove('"').toDouble();
         QJsonObject jsonDrkXmrObject = jsonObject["XMR_DRK"].toObject();
         double tmpDrkXmr = QString(jsonDrkXmrObject["highestBid"].toString()).remove('"').toDouble();
+        QJsonObject jsonBtcdBtcObject = jsonObject["BTC_BTCD"].toObject();
+        double tmpBtcdBtc = QString(jsonBtcdBtcObject["highestBid"].toString()).remove('"').toDouble();
+        QJsonObject jsonBtcdXmrObject = jsonObject["XMR_BTCD"].toObject();
+        double tmpBtcdXmr = QString(jsonBtcdXmrObject["highestBid"].toString()).remove('"').toDouble();
         QJsonObject jsonXcBtcObject = jsonObject["BTC_XC"].toObject();
         double tmpXcBtc = QString(jsonXcBtcObject["highestBid"].toString()).remove('"').toDouble();
         QJsonObject jsonXmrBtcObject = jsonObject["BTC_XMR"].toObject();
         double tmpXmrBtc = QString(jsonXmrBtcObject["highestBid"].toString()).remove('"').toDouble();
         QJsonObject jsonCachBtcObject = jsonObject["BTC_CACH"].toObject();
         double tmpCachBtc = QString(jsonCachBtcObject["highestBid"].toString()).remove('"').toDouble();
+
+        if (tmpBtcUsd > 0.0f)
+        {
+            m_pairBtcUsd = tmpBtcUsd;
+        }
+        else
+        {
+            m_pairBtcUsd = 0.0f;
+        }
+
+        if (tmpXmrUsd > 0.0f)
+        {
+            m_pairXmrUsd = tmpXmrUsd;
+        }
+        else
+        {
+            m_pairXmrUsd = 0.0f;
+        }
 
         if (tmpDrkBtc > 0.0f)
         {
@@ -122,6 +176,24 @@ void PoloniEx::onTickerResult(QNetworkReply* reply)
         else
         {
             m_pairDrkXmr = 0.0f;
+        }
+
+        if (tmpBtcdBtc > 0.0f)
+        {
+            m_pairBtcdBtc = tmpBtcdBtc;
+        }
+        else
+        {
+            m_pairBtcdBtc = 0.0f;
+        }
+
+        if (tmpBtcdXmr > 0.0f)
+        {
+            m_pairBtcdXmr = tmpBtcdXmr;
+        }
+        else
+        {
+            m_pairBtcdXmr = 0.0f;
         }
 
         if (tmpXcBtc > 0.0f)
