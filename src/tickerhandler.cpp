@@ -21,16 +21,15 @@
 
 namespace {
     static const int     VERSION_MAJOR   = 1;
-    static const int     VERSION_MINOR   = 6;
+    static const int     VERSION_MINOR   = 7;
     static const QString VERSION_STRING  = "1";
-    static const QString RELEASE_DATE    = "16/September/2014";
+    static const QString RELEASE_DATE    = "03/December/2014";
 }
 
 TickerHandler::TickerHandler(QObject *parent)
   :   QObject(parent)
   ,   m_updated(1)
   ,   m_bitfinex(this)
-  ,   m_mintpal(this)
   ,   m_cryptsy(this)
   ,   m_poloniex(this)
   ,   m_settings(QString(QStandardPaths::ConfigLocation), QSettings::NativeFormat, this)
@@ -145,17 +144,6 @@ void TickerHandler::setDefaults()
     {
         setXcEnabled();
     }
-
-    if (m_settings.allKeys().contains("coins/cach", Qt::CaseInsensitive))
-    {
-        m_settings.beginGroup("coins");
-        setCachEnabled(m_settings.value("cach", true).toBool());
-        m_settings.endGroup();
-    }
-    else
-    {
-        setCachEnabled();
-    }
 }
 
 void TickerHandler::update(bool forced)
@@ -165,7 +153,6 @@ void TickerHandler::update(bool forced)
         if (m_updated <= (QDateTime().currentDateTime().toTime_t() - (m_updateInterval * 60)) || forced)
         {
             m_bitfinex.fetch();
-            m_mintpal.fetch();
             m_cryptsy.fetch();
             m_poloniex.fetch();
             m_updated = QDateTime().currentDateTime().toTime_t();
@@ -289,18 +276,6 @@ void TickerHandler::setXcEnabled(bool enabled)
     m_xcEnabled = enabled;
 }
 
-void TickerHandler::setCachEnabled(bool enabled)
-{
-    m_settings.beginGroup("coins");
-    m_settings.setValue("cach", enabled);
-    m_settings.endGroup();
-    m_settings.sync();
-    sync();
-    m_settings.beginGroup("coins");
-    m_settings.endGroup();
-    m_cachEnabled = enabled;
-}
-
 int TickerHandler::updateInterval()
 {
     return m_updateInterval;
@@ -344,11 +319,6 @@ bool TickerHandler::isXmrEnabled()
 bool TickerHandler::isXcEnabled()
 {
     return m_xcEnabled;
-}
-
-bool TickerHandler::isCachEnabled()
-{
-    return m_cachEnabled;
 }
 
 QString TickerHandler::bitfinexBtcUsd()
@@ -396,101 +366,6 @@ QString TickerHandler::bitfinexDrkBtc()
         if (m_bitfinex.getDrkBtc() > 0.0f)
         {
             ticker = QString("BTC ").append(QString::number(m_bitfinex.getDrkBtc(), 'f', 5));
-        }
-        else
-        {
-            ticker = QString("BTC ---");
-        }
-        if (isOfflineMode()) {
-            ticker = ticker.append(" (cached)");
-        }
-    }
-    return ticker;
-}
-
-QString TickerHandler::mintpalDrkBtc()
-{
-    QString ticker("DRK disabled.");
-    if (isDrkEnabled()) {
-        if (m_mintpal.getDrkBtc() > 0.0f)
-        {
-            ticker = QString("BTC ").append(QString::number(m_mintpal.getDrkBtc(), 'f', 5));
-        }
-        else
-        {
-            ticker = QString("BTC ---");
-        }
-        if (isOfflineMode()) {
-            ticker = ticker.append(" (cached)");
-        }
-    }
-    return ticker;
-}
-
-QString TickerHandler::mintpalDrkLtc()
-{
-    QString ticker("DRK disabled.");
-    if (isDrkEnabled()) {
-        if (m_mintpal.getDrkLtc() > 0.0f)
-        {
-            ticker = QString("LTC ").append(QString::number(m_mintpal.getDrkLtc(), 'f', 3));
-        }
-        else
-        {
-            ticker = QString("LTC ---");
-        }
-        if (isOfflineMode()) {
-            ticker = ticker.append(" (cached)");
-        }
-    }
-    return ticker;
-}
-
-QString TickerHandler::mintpalCloakBtc()
-{
-    QString ticker("CLOAK disabled.");
-    if (isCloakEnabled()) {
-        if (m_mintpal.getCloakBtc() > 0.0f)
-        {
-            ticker = QString("BTC ").append(QString::number(m_mintpal.getCloakBtc(), 'f', 7));
-        }
-        else
-        {
-            ticker = QString("BTC ---");
-        }
-        if (isOfflineMode()) {
-            ticker = ticker.append(" (cached)");
-        }
-    }
-    return ticker;
-}
-
-QString TickerHandler::mintpalXmrBtc()
-{
-    QString ticker("XMR disabled.");
-    if (isXmrEnabled()) {
-        if (m_mintpal.getXmrBtc() > 0.0f)
-        {
-            ticker = QString("BTC ").append(QString::number(m_mintpal.getXmrBtc(), 'f', 5));
-        }
-        else
-        {
-            ticker = QString("BTC ---");
-        }
-        if (isOfflineMode()) {
-            ticker = ticker.append(" (cached)");
-        }
-    }
-    return ticker;
-}
-
-QString TickerHandler::mintpalXcBtc()
-{
-    QString ticker("XC disabled.");
-    if (isXcEnabled()) {
-        if (m_mintpal.getXcBtc() > 0.0f)
-        {
-            ticker = QString("BTC ").append(QString::number(m_mintpal.getXcBtc(), 'f', 5));
         }
         else
         {
@@ -712,25 +587,6 @@ QString TickerHandler::cryptsyXcLtc()
     return ticker;
 }
 
-QString TickerHandler::cryptsyCachBtc()
-{
-    QString ticker("CACH disabled.");
-    if (isCachEnabled()) {
-        if (m_cryptsy.getCachBtc() > 0.0f)
-        {
-            ticker = QString("BTC ").append(QString::number(m_cryptsy.getCachBtc(), 'f', 7));
-        }
-        else
-        {
-            ticker = QString("BTC ---");
-        }
-        if (isOfflineMode()) {
-            ticker = ticker.append(" (cached)");
-        }
-    }
-    return ticker;
-}
-
 QString TickerHandler::poloniexBtcUsd()
 {
     QString ticker("BTC disabled.");
@@ -871,25 +727,6 @@ QString TickerHandler::poloniexXmrBtc()
         if (m_poloniex.getXmrBtc() > 0.0f)
         {
             ticker = QString("BTC ").append(QString::number(m_poloniex.getXmrBtc(), 'f', 5));
-        }
-        else
-        {
-            ticker = QString("BTC ---");
-        }
-        if (isOfflineMode()) {
-            ticker = ticker.append(" (cached)");
-        }
-    }
-    return ticker;
-}
-
-QString TickerHandler::poloniexCachBtc()
-{
-    QString ticker("CACH disabled.");
-    if (isCachEnabled()) {
-        if (m_poloniex.getCachBtc() > 0.0f)
-        {
-            ticker = QString("BTC ").append(QString::number(m_poloniex.getCachBtc(), 'f', 7));
         }
         else
         {

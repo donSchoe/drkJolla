@@ -38,7 +38,6 @@ namespace {
     static const QString CLOAK_LTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=228";
     static const QString XC_BTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=210";
     static const QString XC_LTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=216";
-    static const QString CACH_BTC = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=154";
 }
 
 Cryptsy::Cryptsy(QObject *parent)
@@ -54,7 +53,6 @@ Cryptsy::Cryptsy(QObject *parent)
     ,   m_pairCloakLtc(-1.0f)
     ,   m_pairXcBtc(-1.0f)
     ,   m_pairXcLtc(-1.0f)
-    ,   m_pairCachBtc(-1.0f)
     ,   m_btcUsdManager(this)
     ,   m_drkUsdManager(this)
     ,   m_drkBtcManager(this)
@@ -66,7 +64,6 @@ Cryptsy::Cryptsy(QObject *parent)
     ,   m_cloakLtcManager(this)
     ,   m_xcBtcManager(this)
     ,   m_xcLtcManager(this)
-    ,   m_cachBtcManager(this)
 {
     connect(&m_btcUsdManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onBtcUsdResult(QNetworkReply*)));
     connect(&m_drkUsdManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDrkUsdResult(QNetworkReply*)));
@@ -79,7 +76,6 @@ Cryptsy::Cryptsy(QObject *parent)
     connect(&m_cloakLtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onCloakLtcResult(QNetworkReply*)));
     connect(&m_xcBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onXcBtcResult(QNetworkReply*)));
     connect(&m_xcLtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onXcLtcResult(QNetworkReply*)));
-    connect(&m_cachBtcManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onCachBtcResult(QNetworkReply*)));
 
     fetch();
 }
@@ -143,11 +139,6 @@ double Cryptsy::getXcLtc()
     return m_pairXcLtc;
 }
 
-double Cryptsy::getCachBtc()
-{
-    return m_pairCachBtc;
-}
-
 void Cryptsy::fetch()
 {
     QNetworkRequest request;
@@ -173,8 +164,6 @@ void Cryptsy::fetch()
     m_xcBtcManager.get(request);
     request.setUrl(QUrl(XC_LTC));
     m_xcLtcManager.get(request);
-    request.setUrl(QUrl(CACH_BTC));
-    m_cachBtcManager.get(request);
 }
 
 void Cryptsy::onBtcUsdResult(QNetworkReply* reply)
@@ -230,11 +219,6 @@ void Cryptsy::onXcBtcResult(QNetworkReply* reply)
 void Cryptsy::onXcLtcResult(QNetworkReply* reply)
 {
     m_pairXcLtc = updatePair(reply);
-}
-
-void Cryptsy::onCachBtcResult(QNetworkReply* reply)
-{
-    m_pairCachBtc = updatePair(reply);
 }
 
 double Cryptsy::updatePair(QNetworkReply* reply)

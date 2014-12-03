@@ -39,10 +39,10 @@ CoverBackground {
             xcEnabled = drkApp.drkTicker.isXcEnabled()
             btcdEnabled = drkApp.drkTicker.isBtcdEnabled()
             coverBtcUsd.text = drkApp.drkTicker.bitfinexBtcUsd()
-            coverDrkBtc.text = drkApp.drkTicker.mintpalDrkBtc()
+            coverDrkBtc.text = drkApp.drkTicker.cryptsyDrkBtc()
             coverAncBtc.text = drkApp.drkTicker.cryptsyAncBtc()
-            coverXmrBtc.text = drkApp.drkTicker.mintpalXmrBtc()
-            coverXcBtc.text = drkApp.drkTicker.mintpalXcBtc()
+            coverXmrBtc.text = drkApp.drkTicker.poloniexXmrBtc()
+            coverXcBtc.text = drkApp.drkTicker.cryptsyXcBtc()
             coverBtcdBtc.text = drkApp.drkTicker.cryptsyBtcdBtc()
             if (!offlineMode && coverActive) {
                 drkApp.drkTicker.update()
@@ -90,7 +90,7 @@ CoverBackground {
         }
         Label {
             id: coverDrkBtc
-            text: qsTr(drkApp.drkTicker.mintpalDrkBtc())
+            text: qsTr(drkApp.drkTicker.cryptsyDrkBtc())
             visible: drkEnabled
             width: parent.width
             color: Theme.highlightColor
@@ -141,7 +141,7 @@ CoverBackground {
         }
         Label {
             id: coverXmrBtc
-            text: qsTr(drkApp.drkTicker.mintpalXmrBtc())
+            text: qsTr(drkApp.drkTicker.poloniexXmrBtc())
             visible: xmrEnabled
             width: parent.width
             color: Theme.highlightColor
@@ -158,7 +158,7 @@ CoverBackground {
         }
         Label {
             id: coverXcBtc
-            text: qsTr(drkApp.drkTicker.mintpalXcBtc())
+            text: qsTr(drkApp.drkTicker.cryptsyXcBtc())
             visible: xcEnabled
             width: parent.width
             color: Theme.highlightColor

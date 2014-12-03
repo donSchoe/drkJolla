@@ -101,12 +101,6 @@ Dialog {
                 checked: drkApp.drkTicker.isCloakEnabled()
                 description: "Enables the CLOAK tickers."
             }
-            TextSwitch {
-                id: settingsCoinsCach
-                text: qsTr("Cachecoin")
-                checked: drkApp.drkTicker.isCachEnabled()
-                description: "Enables the CACH tickers."
-            }
             Label {
                 id: settingsUpdate
                 x: Theme.paddingMedium
@@ -182,7 +176,6 @@ Dialog {
               drkApp.drkTicker.setCloakEnabled(settingsCoinsCloak.checked);
               drkApp.drkTicker.setXmrEnabled(settingsCoinsXmr.checked);
               drkApp.drkTicker.setXcEnabled(settingsCoinsXc.checked);
-              drkApp.drkTicker.setCachEnabled(settingsCoinsCach.checked);
               drkApp.drkTicker.setUpdateInterval(settingsUpdateTextField.text);
               drkApp.drkTicker.setOfflineMode(settingsModeSwitch.checked);
           }

@@ -19,7 +19,6 @@
 #include <QSettings>
 
 #include "bitfinex.h"
-#include "mintpal.h"
 #include "cryptsy.h"
 #include "poloniex.h"
 
@@ -44,7 +43,6 @@ public slots:
     void setCloakEnabled(bool enabled = false);
     void setXmrEnabled(bool enabled = true);
     void setXcEnabled(bool enabled = true);
-    void setCachEnabled(bool enabled = false);
 
     int updateInterval();
     bool isOfflineMode();
@@ -55,16 +53,10 @@ public slots:
     bool isCloakEnabled();
     bool isXmrEnabled();
     bool isXcEnabled();
-    bool isCachEnabled();
 
     QString bitfinexBtcUsd();
     QString bitfinexDrkUsd();
     QString bitfinexDrkBtc();
-    QString mintpalDrkBtc();
-    QString mintpalDrkLtc();
-    QString mintpalCloakBtc();
-    QString mintpalXmrBtc();
-    QString mintpalXcBtc();
     QString cryptsyBtcUsd();
     QString cryptsyDrkUsd();
     QString cryptsyDrkBtc();
@@ -76,7 +68,6 @@ public slots:
     QString cryptsyCloakLtc();
     QString cryptsyXcBtc();
     QString cryptsyXcLtc();
-    QString cryptsyCachBtc();
     QString poloniexBtcUsd();
     QString poloniexXmrUsd();
     QString poloniexDrkBtc();
@@ -85,7 +76,6 @@ public slots:
     QString poloniexBtcdXmr();
     QString poloniexXcBtc();
     QString poloniexXmrBtc();
-    QString poloniexCachBtc();
 
     QString version(bool shrt = false);
     QString versionDate();
@@ -101,10 +91,8 @@ private:
     bool m_cloakEnabled;
     bool m_xmrEnabled;
     bool m_xcEnabled;
-    bool m_cachEnabled;
 
     BitFinex m_bitfinex;
-    MintPal m_mintpal;
     Cryptsy m_cryptsy;
     PoloniEx m_poloniex;
 

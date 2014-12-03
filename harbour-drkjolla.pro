@@ -18,14 +18,12 @@ HEADERS += \
     src/tickerhandler.h \
     src/bitfinex.h \
     src/cryptsy.h \
-    src/mintpal.h \
     src/poloniex.h
 
 SOURCES += src/drkjolla.cpp \
     src/tickerhandler.cpp \
     src/bitfinex.cpp \
     src/cryptsy.cpp \
-    src/mintpal.cpp \
     src/poloniex.cpp
 
 OTHER_FILES += \

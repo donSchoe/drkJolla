@@ -34,7 +34,6 @@ public:
     double getBtcdXmr();
     double getXcBtc();
     double getXmrBtc();
-    double getCachBtc();
 
     void fetch();
 
@@ -50,7 +49,6 @@ private:
     double m_pairBtcdXmr;
     double m_pairXcBtc;
     double m_pairXmrBtc;
-    double m_pairCachBtc;
 
     QNetworkAccessManager m_tickerManager;
 

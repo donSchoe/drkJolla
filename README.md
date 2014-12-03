@@ -1,4 +1,4 @@
-drkJolla 0.1.6-1
+drkJolla 0.1.7-1
 ================
 
 Your anon-crypto price ticker app for your Jolla / Sailfish device.
@@ -10,8 +10,8 @@ ABOUT
 Price ticker app of privacy-centric crypto-currencies for your Sailfish device
 which displays the current prices directly on your home screen.
 
-Currently includes Bitcoin, Darkcoin, Anoncoin, Monero, BitcoinDark, XCurrency,
-Cloakcoin and Cachecoin.
+Currently includes Bitcoin, Darkcoin, Anoncoin, Monero, BitcoinDark, XCurrency
+and Cloakcoin.
 
 User settings allow to enable/disable coins, set the update interval or go to
 offline mode to save energy and bandwith.
@@ -35,6 +35,6 @@ License for more details.
 BUY ME A COFFEE
 ---------------
 
-Bitcoin: 1Bzc7PatbRzXz6EAmvSuBuoWED96qy3zgc
+Bitcoin: 1BumJSsvHJUG6xHYz3K4tX6mBFDtc1hmh1
 
-Darkcoin: XsWp6DXrEiEtBpyU5YMctXf15BYNHhufrG
+Darkcoin: XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg
